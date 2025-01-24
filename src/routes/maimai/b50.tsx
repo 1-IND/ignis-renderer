@@ -12,9 +12,6 @@ interface Context {
 }
 declare global {
 	function setContext(ctx: Context): void;
-
-	// eslint-disable-next-line vars-on-top, no-var
-	var ctx: Context;
 }
 
 const [ctx, setContext] = createStore<Context>({
@@ -22,16 +19,15 @@ const [ctx, setContext] = createStore<Context>({
 	best50: { b35: [], b15: [] },
 });
 globalThis.setContext = setContext;
-globalThis.ctx = ctx;
 
 export default function Home() {
 	return (
 		<Background w={1600} h={1600}>
 			<Player user={ctx.user} />
-			<div class='grid grid-cols-5 grid-rows-7 gap-2 px-[2rem] py-[1rem]'>
+			<div class='grid grid-cols-5 grid-rows-7 gap-2 px-8 py-4'>
 				<For each={ctx.best50.b35}>{score => <Card score={score} />}</For>
 			</div>
-			<div class='grid grid-cols-5 grid-rows-3 gap-2 px-[2rem] py-[1rem]'>
+			<div class='grid grid-cols-5 grid-rows-3 gap-2 px-8 py-4'>
 				<For each={ctx.best50.b15}>{score => <Card score={score} />}</For>
 			</div>
 		</Background>

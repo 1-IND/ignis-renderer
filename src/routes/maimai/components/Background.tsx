@@ -2,7 +2,7 @@ import type { JSX } from 'solid-js';
 
 export function Background({ children, h, w }: { children: JSX.Element; h: number; w: number }) {
 	return (
-		<div class='relative' style={{ height: `${h}px`, width: `${w}px` }}>
+		<div id='container' class='relative' style={{ height: `${h}px`, width: `${w}px` }}>
 			{children}
 
 			<div class='z--100'>
