@@ -12,10 +12,20 @@ export interface Music {
 	artist: string;
 	bpm: number;
 
-	version: Version;
+	utage?: {
+		kanji: string;
+		comment: string;
+		dp: boolean;
+		fixed: { name: string; value: string }[];
+	};
+
+	jacket: string;
+}
+export interface MusicDetailed extends Music {
+	version: string;
 	genre: string;
 	levels: {
-		diff: Diff;
+		diff: string;
 		rating: number;
 		charter: string;
 		notes: {
@@ -26,14 +36,6 @@ export interface Music {
 			break: number;
 		};
 	}[];
-	utage?: {
-		kanji: string;
-		comment: string;
-		dp: boolean;
-		fixed: { name: string; value: string }[];
-	};
-
-	jacket: string;
 }
 export interface Chart {
 	rating: number;
@@ -93,59 +95,4 @@ export function calcRating(baseRating: number, achi: number) {
 	achi = Math.min(1005000, achi);
 	const baseRt = ratingTable.find(v => v[0] <= achi)![1];
 	return baseRating * (Math.min(1005000, achi) / 1000000) * baseRt | 0;
-}
-
-export enum Version {
-	maimai,
-	maimaiPLUS,
-	GreeN,
-	GreeNPLUS,
-	ORANGE,
-	ORANGEPLUS,
-	PiNK,
-	PiNKPLUS,
-	MURASAKi,
-	MURASAKiPLUS,
-	MiLK,
-	MiLKPLUS,
-	FiNALE,
-	maimaDX,
-	maimaDXPLUS,
-	Splash,
-	SplashPLUS,
-	UNiVERSE,
-	UNiVERSEPLUS,
-	FESTiVAL,
-	FESTiVALPLUS,
-	BUDDiES,
-	BUDDiESPLUS,
-	PRiSM,
-}
-
-export enum Diff {
-	Level0,
-	Level1,
-	Level2,
-	Level3,
-	Level4,
-	Level5,
-	Level6,
-	Level7,
-	Level7P,
-	Level8,
-	Level8P,
-	Level9,
-	Level9P,
-	Level10,
-	Level10P,
-	Level11,
-	Level11P,
-	Level12,
-	Level12P,
-	Level13,
-	Level13P,
-	Level14,
-	Level14P,
-	Level15,
-	Level15P,
 }
