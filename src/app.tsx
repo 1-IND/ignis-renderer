@@ -1,4 +1,5 @@
 import { Router } from '@solidjs/router';
+import { clientOnly } from '@solidjs/start';
 import { FileRoutes } from '@solidjs/start/router';
 import { Suspense } from 'solid-js';
 
@@ -10,11 +11,16 @@ declare global {
 	function setContext(ctx: any): void;
 }
 
+const DebugContext = clientOnly(async () => import('./components/DebugContext'));
+
 export default function App() {
 	return (
 		<Router
 			root={props => (
-				<Suspense>{props.children}</Suspense>
+				<Suspense>
+					<DebugContext />
+					{props.children}
+				</Suspense>
 			)}
 		>
 			<FileRoutes />
