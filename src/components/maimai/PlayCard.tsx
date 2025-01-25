@@ -1,8 +1,8 @@
 import clsx from 'clsx';
 
-import type { Level, Score } from '../def';
-import { calcRating } from '../def';
 import Badge, { dxs, toDXStar } from './Badge';
+import type { Level, Score } from './def';
+import { calcRating } from './def';
 
 export const palettes: Record<Level, [string, string, string]> = [
 	['bg-green-5', 'text-white', 'bg-green-6'],
