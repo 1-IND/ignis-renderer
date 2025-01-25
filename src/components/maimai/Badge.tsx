@@ -1,3 +1,5 @@
+import { Show } from 'solid-js';
+
 export type MusicType = 'STD' | 'DX' | 'UTG';
 export enum ComboType { Blank, FC, FCp, AP, APp }
 export enum SyncType { Blank, FS, FSp, FSD, FSDp, SP }
@@ -16,15 +18,20 @@ export const syncBadge = (sync: SyncType) => `lamps/UI_MSS_MBase_Icon_${SyncType
 export const dxsBadge = (acc: number) => `lamps/UI_GAM_Gauge_DXScoreIcon_0${toDXStar(acc)}`;
 
 export default {
-	Combo: ({ type }: { type: ComboType }) => <img class='h-6 w-6 object-contain object-left' src={toAssetPath(comboBadge(type))} />,
-	Sync: ({ type }: { type: SyncType }) => <img class='h-6 w-6 object-contain object-left' src={toAssetPath(syncBadge(type))} />,
-	Rank: ({ type }: { type: RankType }) => <img class='h-6 w-15 object-contain object-left' src={toAssetPath(rankBadge(type))} />,
-	DXS: ({ acc }: { acc: number }) => <img class='h-6 w-11 object-contain' src={toAssetPath(dxsBadge(acc))} />,
-	SongType: ({ type }: { type: MusicType }) => {
-		if (type === 'STD')
-			return <img class='h-4 top-0 right-0 absolute' src={toAssetPath('infoicon/UI_MSS_Infoicon_StandardMode')} />;
-		if (type === 'DX')
-			return <img class='h-4 top-0 right-0 absolute' src={toAssetPath('infoicon/UI_MSS_Infoicon_DeluxeMode')} />;
-		return <></>;
+	Combo: ({ type, class: c }: { type: ComboType; class?: string }) => <img class={c} src={toAssetPath(comboBadge(type))} />,
+	Sync: ({ type, class: c }: { type: SyncType; class?: string }) => <img class={c} src={toAssetPath(syncBadge(type))} />,
+	Rank: ({ type, class: c }: { type: RankType; class?: string }) => <img class={c} src={toAssetPath(rankBadge(type))} />,
+	DXS: ({ acc, class: c }: { acc: number; class?: string }) => <img class={c} src={toAssetPath(dxsBadge(acc))} />,
+	SongType: ({ type, class: c }: { type: MusicType; class?: string }) => {
+		return (
+			<>
+				<Show when={type === 'STD'}>
+					<img class={c} src={toAssetPath('infoicon/UI_MSS_Infoicon_StandardMode')} />
+				</Show>
+				<Show when={type === 'DX'}>
+					<img class={c} src={toAssetPath('infoicon/UI_MSS_Infoicon_DeluxeMode')} />
+				</Show>
+			</>
+		);
 	},
 };

@@ -28,7 +28,7 @@ export function Card({ score }: { score: Score }) {
 		<div class={clsx('flex overflow-hidden rounded-md p-1 relative', fg, bg)}>
 			<div class='relative h-26 w-26'>
 				<img src={music.jacket} class='rounded-md' />
-				<Badge.SongType type={music.type} />
+				<Badge.SongType class='h-4 top-0 right-0 absolute' type={music.type} />
 			</div>
 			<div class='flex-1 flex flex-col pl-2 min-w-0 lh-none justify-between'>
 				<div class='flex justify-between'>
@@ -47,10 +47,10 @@ export function Card({ score }: { score: Score }) {
 				</div>
 
 				<div class={clsx('flex justify-between rounded-md p-1', bgBadges)}>
-					<Badge.Rank type={score.rank} />
-					<Badge.Combo type={score.combo} />
-					<Badge.Sync type={score.sync} />
-					<Badge.DXS acc={dxAcc} />
+					<Badge.Rank class='h-6 w-6 object-contain object-left' type={score.rank} />
+					<Badge.Combo class='h-6 w-6 object-contain object-left' type={score.combo} />
+					<Badge.Sync class='h-6 w-15 object-contain object-left' type={score.sync} />
+					<Badge.DXS class='h-6 w-11 object-contain' acc={dxAcc} />
 				</div>
 			</div>
 		</div>
