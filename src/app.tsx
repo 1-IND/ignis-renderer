@@ -4,6 +4,11 @@ import { Suspense } from 'solid-js';
 
 import '@unocss/reset/tailwind.css';
 import 'virtual:uno.css';
+import './app.css';
+
+declare global {
+	function setContext(ctx: any): void;
+}
 
 export default function App() {
 	return (
