@@ -28,7 +28,7 @@ export function PlayCard({ score }: { score: Score }) {
 				</div>
 
 				<div class='font-digit'>
-					<span class='text-lg lh-none font-500'>{`${(score.acc / 1e4).toFixed(4)}%`}</span>
+					<span class='text-lg lh-none font-semibold'>{`${(score.acc / 1e4).toFixed(4)}%`}</span>
 					<span class='text-xs lh-none'>{` / ${chart.rating.toFixed(1)} / ${rating}`}</span>
 				</div>
 
