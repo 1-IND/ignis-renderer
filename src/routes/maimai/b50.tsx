@@ -1,10 +1,10 @@
 import { For, Show } from 'solid-js';
 import { createStore } from 'solid-js/store';
 
-import { Background } from '~/components/maimai/Background';
+import { Background } from '~/components/maimai/Background/Prism';
 import type { Best50, User } from '~/components/maimai/def';
 import { PlayCard } from '~/components/maimai/PlayCard';
-import { Player } from '~/components/maimai/Player';
+import { PlayerCard } from '~/components/maimai/PlayerCard';
 
 interface Context {
 	user?: User;
@@ -16,9 +16,9 @@ globalThis.setContext = setContext;
 
 export default function Main() {
 	return (
-		<Background w={1600} h={1600}>
+		<Background class='w-400 h-400'>
 			<Show when={ctx.user}>
-				<Player user={ctx.user!} />
+				<PlayerCard user={ctx.user!} />
 			</Show>
 			<Show when={ctx.best50}>
 				<div class='grid grid-cols-5 grid-rows-7 gap-2 px-8 py-4'>
