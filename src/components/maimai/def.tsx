@@ -5,7 +5,7 @@ export { ComboType, RankType, SyncType };
 export type { MusicType };
 export enum Level { BAS, ADV, EXP, MAS, REM, UTG }
 
-export interface Music {
+export interface MusicData {
 	id: number;
 	type: MusicType;
 	title: string;
@@ -13,19 +13,7 @@ export interface Music {
 	version: { id: number; name: string };
 	genre: { id: number; name: string };
 	bpm: number;
-	levels: {
-		diff: string;
-		rating: number;
-		charter: string;
-		notes: {
-			tap: number;
-			hold: number;
-			slide: number;
-			touch: number;
-			break: number;
-			total: number;
-		};
-	}[];
+	levels: LevelData[];
 
 	utage?: {
 		kanji: string;
@@ -37,9 +25,22 @@ export interface Music {
 	jacketImg: string;
 	versionImg: string;
 }
+export interface LevelData {
+	diff: string;
+	rating: number;
+	charter: string;
+	notes: {
+		tap: number;
+		hold: number;
+		slide: number;
+		touch: number;
+		break: number;
+		total: number;
+	};
+}
 
 export interface Score {
-	music: Music;
+	music: MusicData;
 
 	level: Level;
 	acc: number;
@@ -91,3 +92,13 @@ export function calcRating(baseRating: number, achi: number) {
 	const baseRt = ratingTable.find(v => v[0] <= achi)![1];
 	return baseRating * (Math.min(1005000, achi) / 1000000) * baseRt | 0;
 }
+
+const _ = (name: string, bg: string, fg: string, bgBadges: string) => ({ name, bg, fg, bgBadges }) as const;
+export const lvlData = [
+	_('Basic', 'bg-green-5', 'text-white', 'bg-green-6'),
+	_('Advanced', 'bg-yellow-4', 'text-white', 'bg-yellow-5'),
+	_('Expert', 'bg-red-5', 'text-white', 'bg-red-6'),
+	_('Master', 'bg-purple-7', 'text-white', 'bg-purple-9'),
+	_('Re:Master', 'bg-white', 'text-gray-7', 'bg-gray-3'),
+	_('U·TA·GE', 'bg-pink-4', 'text-white', 'bg-pink-5'), // TODO: kanji & dp display
+] as const;

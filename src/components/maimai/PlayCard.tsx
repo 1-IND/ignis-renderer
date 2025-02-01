@@ -1,17 +1,8 @@
 import clsx from 'clsx';
 
 import Badge, { dxs, toDXStar } from './Badge';
-import type { Level, Score } from './def';
-import { calcRating } from './def';
-
-export const palettes: Record<Level, [string, string, string]> = [
-	['bg-green-5', 'text-white', 'bg-green-6'],
-	['bg-yellow-4', 'text-white', 'bg-yellow-5'],
-	['bg-red-5', 'text-white', 'bg-red-6'],
-	['bg-purple-7', 'text-white', 'bg-purple-9'],
-	['bg-white', 'text-gray-7', 'bg-gray-3'],
-	['bg-pink-4', 'text-white', 'bg-pink-5'], // TODO: kanji & dp display
-];
+import type { Score } from './def';
+import { calcRating, lvlData } from './def';
 
 export function PlayCard({ score }: { score: Score }) {
 	const { music } = score;
@@ -23,7 +14,7 @@ export function PlayCard({ score }: { score: Score }) {
 	const dxStar = toDXStar(dxAcc) + 1;
 	const d = score.dxs - Math.ceil((dxs[dxStar - 1] ?? 1) * dxsMax);
 
-	const [bg, fg, bgBadges] = palettes[score.level];
+	const { bg, fg, bgBadges } = lvlData[score.level];
 
 	return (
 		<div class={clsx('flex overflow-hidden rounded-md p-1 relative', fg, bg)}>
