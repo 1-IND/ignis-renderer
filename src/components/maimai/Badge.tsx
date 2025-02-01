@@ -12,10 +12,10 @@ function toAssetPath(name: string) {
 	return `/assets/maimai/prism/${name}.png`;
 }
 
-export const rankBadge = (rank: RankType) => `ranks/UI_GAM_Rank_${RankType[rank]}`;
-export const comboBadge = (combo: ComboType) => `lamps/UI_MSS_MBase_Icon_${ComboType[combo]}`;
-export const syncBadge = (sync: SyncType) => `lamps/UI_MSS_MBase_Icon_${SyncType[sync]}`;
-export const dxsBadge = (acc: number) => `lamps/UI_GAM_Gauge_DXScoreIcon_0${toDXStar(acc)}`;
+export const rankBadge = (rank: RankType) => `rank/UI_GAM_Rank_${RankType[rank]}`;
+export const comboBadge = (combo: ComboType) => `lamp/UI_MSS_MBase_Icon_${ComboType[combo]}`;
+export const syncBadge = (sync: SyncType) => `lamp/UI_MSS_MBase_Icon_${SyncType[sync]}`;
+export const dxsBadge = (acc: number) => `lamp/UI_GAM_Gauge_DXScoreIcon_0${toDXStar(acc)}`;
 
 export default {
 	Combo: ({ type, class: c }: { type: ComboType; class?: string }) => <img class={c} src={toAssetPath(comboBadge(type))} />,
