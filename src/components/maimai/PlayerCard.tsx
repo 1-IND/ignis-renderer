@@ -1,6 +1,6 @@
 import type { User } from './def';
 
-export function Player({ user }: { user: User }) {
+export function PlayerCard({ user }: { user: User }) {
 	return (
 		<div>
 

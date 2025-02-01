@@ -4,6 +4,7 @@ import { ComboType, RankType, SyncType } from '~/components/maimai/Badge';
 export { ComboType, RankType, SyncType };
 export type { MusicType };
 export enum Level { BAS, ADV, EXP, MAS, REM, UTG }
+export enum TitleType { Normal, Bronze, Silver, Gold, Rainbow }
 
 export interface MusicData {
 	id: number;
@@ -54,6 +55,11 @@ export interface Score {
 export interface User {
 	name: string;
 	rating: number;
+	title: { type: TitleType; text: string };
+
+	iconImg: string;
+	nameplateImg: string;
+	frameImg: string;
 }
 
 export interface Best50 {
