@@ -13,11 +13,12 @@ export const palettes: Record<Level, [string, string, string]> = [
 	['bg-pink-4', 'text-white', 'bg-pink-5'], // TODO: kanji & dp display
 ];
 
-export function Card({ score }: { score: Score }) {
-	const { music, chart } = score;
+export function PlayCard({ score }: { score: Score }) {
+	const { music } = score;
+	const chart = music.levels[score.level];
 	const rating = calcRating(chart.rating, score.acc);
 
-	const dxsMax = 3 * chart.notes;
+	const dxsMax = 3 * chart.notes.total;
 	const dxAcc = score.dxs / dxsMax;
 	const dxStar = toDXStar(dxAcc) + 1;
 	const d = score.dxs - Math.ceil((dxs[dxStar - 1] ?? 1) * dxsMax);
@@ -27,7 +28,7 @@ export function Card({ score }: { score: Score }) {
 	return (
 		<div class={clsx('flex overflow-hidden rounded-md p-1 relative', fg, bg)}>
 			<div class='relative h-26 w-26'>
-				<img src={music.jacket} class='rounded-md' />
+				<img src={music.jacketImg} class='rounded-md' />
 				<Badge.SongType class='h-4 top-0 right-0 absolute' type={music.type} />
 			</div>
 			<div class='flex-1 flex flex-col pl-2 min-w-0 lh-none justify-between'>
@@ -47,9 +48,9 @@ export function Card({ score }: { score: Score }) {
 				</div>
 
 				<div class={clsx('flex justify-between rounded-md p-1', bgBadges)}>
-					<Badge.Rank class='h-6 w-6 object-contain object-left' type={score.rank} />
+					<Badge.Rank class='h-6 w-15 object-contain object-left' type={score.rank} />
 					<Badge.Combo class='h-6 w-6 object-contain object-left' type={score.combo} />
-					<Badge.Sync class='h-6 w-15 object-contain object-left' type={score.sync} />
+					<Badge.Sync class='h-6 w-6 object-contain object-left' type={score.sync} />
 					<Badge.DXS class='h-6 w-11 object-contain' acc={dxAcc} />
 				</div>
 			</div>

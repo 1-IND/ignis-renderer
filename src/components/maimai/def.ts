@@ -10,20 +10,9 @@ export interface Music {
 	type: MusicType;
 	title: string;
 	artist: string;
+	version: { id: number; name: string };
+	genre: { id: number; name: string };
 	bpm: number;
-
-	utage?: {
-		kanji: string;
-		comment: string;
-		dp: boolean;
-		fixed: { name: string; value: string }[];
-	};
-
-	jacket: string;
-}
-export interface MusicDetailed extends Music {
-	version: string;
-	genre: string;
 	levels: {
 		diff: string;
 		rating: number;
@@ -34,17 +23,23 @@ export interface MusicDetailed extends Music {
 			slide: number;
 			touch: number;
 			break: number;
+			total: number;
 		};
 	}[];
-}
-export interface Chart {
-	rating: number;
-	notes: number;
+
+	utage?: {
+		kanji: string;
+		comment: string;
+		dp: boolean;
+		fixed: { name: string; value: string }[];
+	};
+
+	jacketImg: string;
+	versionImg: string;
 }
 
 export interface Score {
 	music: Music;
-	chart: Chart;
 
 	level: Level;
 	acc: number;
