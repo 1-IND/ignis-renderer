@@ -1,6 +1,8 @@
 import clsx from 'clsx';
 import { Match, Show, Switch } from 'solid-js';
-import { UtageData } from './def';
+
+import type { UtageData } from './def';
+import { toAssetPath } from './def';
 
 export type MusicType = 'STD' | 'DX' | 'UTG';
 export enum ComboType { Blank, FC, FCp, AP, APp }
@@ -9,10 +11,6 @@ export enum RankType { D, C, B, BB, BBB, A, AA, AAA, S, Sp, SS, SSp, SSS, SSSp }
 
 export const dxs = [0.85, 0.90, 0.93, 0.95, 0.97];
 export const toDXStar = (acc: number) => dxs.findLastIndex(dx => acc >= dx) + 1;
-
-function toAssetPath(name: string) {
-	return `/assets/maimai/${name}.png`;
-}
 
 export const rankBadge = (rank: RankType) => `prism/rank/UI_GAM_Rank_${RankType[rank]}`;
 export const comboBadge = (combo: ComboType) => `common/lamp/UI_MSS_MBase_Icon_${ComboType[combo]}`;
@@ -24,7 +22,7 @@ export default {
 	Sync: ({ type, class: c }: { type: SyncType; class?: string }) => <img class={c} src={toAssetPath(syncBadge(type))} />,
 	Rank: ({ type, class: c }: { type: RankType; class?: string }) => <img class={c} src={toAssetPath(rankBadge(type))} />,
 	DXS: ({ acc, class: c }: { acc: number; class?: string }) => <img class={c} src={toAssetPath(dxsBadge(acc))} />,
-	SongType: ({ type, utage, class: c }: { type: MusicType; utage?: UtageData, class?: string }) => {
+	SongType: ({ type, utage, class: c }: { type: MusicType; utage?: UtageData; class?: string }) => {
 		return (
 			<Switch>
 				<Match when={type === 'STD'}><img class={c} src={toAssetPath('common/infoicon/UI_MSS_Infoicon_StandardMode')} /></Match>

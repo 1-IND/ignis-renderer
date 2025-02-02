@@ -17,18 +17,18 @@ export function PlayCard({ score }: { score: Score }) {
 	const { bg, fg, bgBadges } = lvlData[score.level];
 
 	return (
-		<div class={clsx('flex overflow-hidden rounded-md p-1 relative', fg, bg)}>
+		<div class={clsx('flex overflow-hidden rounded-md p-1 relative font-semibold', fg, bg)}>
 			<div class='relative h-26 w-26'>
 				<img src={music.jacketImg} class='rounded-md' />
 				<Badge.SongType class='h-4 top-0 right-0 absolute' type={music.type} />
 			</div>
 			<div class='flex-1 flex flex-col pl-2 min-w-0 lh-none justify-between'>
 				<div class='flex justify-between'>
-					<span class='text-lg truncate font-text font-semibold'>{music.title}</span>
+					<span class='text-lg truncate font-text'>{music.title}</span>
 				</div>
 
 				<div class='font-digit'>
-					<span class='text-lg lh-none font-semibold'>{`${(score.acc / 1e4).toFixed(4)}%`}</span>
+					<span class='text-lg lh-none'>{`${(score.acc / 1e4).toFixed(4)}%`}</span>
 					<span class='text-xs lh-none'>{` / ${chart.rating.toFixed(1)} / ${rating}`}</span>
 				</div>
 

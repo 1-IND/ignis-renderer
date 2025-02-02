@@ -128,3 +128,4 @@ export function sumLevels(l: LevelData, r: LevelData): LevelData {
 		},
 	};
 }
+export const toAssetPath = (name: string) => `/assets/maimai/${name}.png`;

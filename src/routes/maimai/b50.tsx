@@ -16,15 +16,17 @@ globalThis.setContext = setContext;
 
 export default function Main() {
 	return (
-		<Background class='w-400 h-400'>
+		<Background class='w-400'>
 			<Show when={ctx.user}>
-				<PlayerCard user={ctx.user!} />
+				<div class='m-8'>
+					<PlayerCard class='w-100%' user={ctx.user!} />
+				</div>
 			</Show>
 			<Show when={ctx.best50}>
-				<div class='grid grid-cols-5 grid-rows-7 gap-2 px-8 py-4'>
+				<div class='grid grid-cols-5 grid-rows-7 gap-2 px-8 pb-8'>
 					<For each={ctx.best50!.b35}>{score => <PlayCard score={score} />}</For>
 				</div>
-				<div class='grid grid-cols-5 grid-rows-3 gap-2 px-8 py-4'>
+				<div class='grid grid-cols-5 grid-rows-3 gap-2 px-8 pb-8'>
 					<For each={ctx.best50!.b15}>{score => <PlayCard score={score} />}</For>
 				</div>
 			</Show>
