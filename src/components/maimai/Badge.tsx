@@ -28,7 +28,7 @@ export default {
 		return (
 			<Switch>
 				<Match when={type === 'STD'}><img class={c} src={toAssetPath('common/infoicon/UI_MSS_Infoicon_StandardMode')} /></Match>
-				<Match when={type === 'DX'}><img class={c} src={toAssetPath('common/infoicon/UI_MSS_Infoicon_StandardMode')} /></Match>
+				<Match when={type === 'DX'}><img class={c} src={toAssetPath('common/infoicon/UI_MSS_Infoicon_DeluxeMode')} /></Match>
 				<Match when={type === 'UTG'}>
 					<div class={clsx('flex', c)}>
 						<div class='z-1 relative'>
@@ -36,7 +36,7 @@ export default {
 							<div class='font-text text-size-60% text-white absolute top-1/2 left-1/2 transform-translate--50%'>{utage?.kanji}</div>
 						</div>
 						<Show when={utage?.dp}>
-							<img class='ml--3' src={toAssetPath('common/infoicon/UI_MSS_Infoicon_Utage_2P')} />
+							<img class='ml--4' src={toAssetPath('common/infoicon/UI_MSS_Infoicon_Utage_2P')} />
 						</Show>
 					</div>
 				</Match>
