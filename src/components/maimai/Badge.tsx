@@ -21,7 +21,11 @@ export default {
 	Combo: ({ type, class: c }: { type: ComboType; class?: string }) => <img class={c} src={toAssetPath(comboBadge(type))} />,
 	Sync: ({ type, class: c }: { type: SyncType; class?: string }) => <img class={c} src={toAssetPath(syncBadge(type))} />,
 	Rank: ({ type, class: c }: { type: RankType; class?: string }) => <img class={c} src={toAssetPath(rankBadge(type))} />,
-	DXS: ({ acc, class: c }: { acc: number; class?: string }) => <img class={c} src={toAssetPath(dxsBadge(acc))} />,
+	DXS: ({ acc, class: c }: { acc: number; class?: string }) => (
+		<Show when={acc >= 0.85} fallback={<span class={c}></span>}>
+			<img class={c} src={toAssetPath(dxsBadge(acc))} />
+		</Show>
+	),
 	SongType: ({ type, utage, class: c }: { type: MusicType; utage?: UtageData; class?: string }) => {
 		return (
 			<Switch>
