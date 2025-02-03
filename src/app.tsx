@@ -9,6 +9,7 @@ import './app.css';
 
 declare global {
 	function setContext(ctx: any): void;
+	var loaded: true;
 }
 
 const DebugContext = clientOnly(async () => import('./components/DebugContext'));
