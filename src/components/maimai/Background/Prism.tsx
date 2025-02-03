@@ -5,10 +5,10 @@ import classNames from './Prism.module.css';
 
 export function Background({ children, class: c }: { children: JSX.Element; class?: string }) {
 	return (
-		<div id='container' class={clsx('relative overflow-hidden', c)}>
+		<div id='container' class={clsx('relative overflow-hidden bg-blue-2', c)}>
 			<div>{children}</div>
 
-			<div class='z--100'>
+			<div class='z--100 hidden'>
 				<div class={classNames.maiDecorationBg}>
 					<div class={clsx(classNames['background-layer'])} />
 					<div class={clsx(classNames['pattern-layer'])} />

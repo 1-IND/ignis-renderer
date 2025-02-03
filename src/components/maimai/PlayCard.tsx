@@ -48,3 +48,16 @@ export function PlayCard({ score }: { score: Score }) {
 		</div>
 	);
 }
+
+export function DummyPlayCard() {
+	return (
+		<div class='flex overflow-hidden rounded-md p-1 relative font-semibold bg-gray-1 text-gray-3'>
+			<div class='relative h-26 w-26 bg-gray-2' />
+			<div class='flex-1 flex flex-col pl-2 min-w-0 lh-none justify-between'>
+				<div class='flex justify-between'>
+					<span class='text-lg truncate font-text'>Not Played</span>
+				</div>
+			</div>
+		</div>
+	);
+}
