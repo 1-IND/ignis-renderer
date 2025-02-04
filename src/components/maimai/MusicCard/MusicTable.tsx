@@ -88,9 +88,9 @@ function DiffRow({ level, lvlName, noDelta, data }: { level: Level; lvlName?: st
 				<Show when={data} fallback={<div class='font-digit leading-5'>&emsp;</div>}>
 					<Show
 						when={level < Level.UTG}
-						fallback={<div class={clsx('font-digit leading-5', fg)}>{`${data!.diff}?`}</div>}
+						fallback={<div class={clsx('font-digit leading-5', fg)}>{`${data!.diff.name}?`}</div>}
 					>
-						<div class={clsx('font-digit leading-5', fg)}>{`${data!.diff} (${data!.rating.toFixed(1)})`}</div>
+						<div class={clsx('font-digit leading-5', fg)}>{`${data!.diff.name} (${data!.rating.toFixed(1)})`}</div>
 					</Show>
 				</Show>
 			</td>

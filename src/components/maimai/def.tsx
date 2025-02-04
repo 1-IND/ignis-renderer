@@ -21,7 +21,7 @@ export interface MusicData {
 	versionImg: string;
 }
 export interface LevelData {
-	diff: string;
+	diff: { id: number; name: string };
 	rating: number;
 	charter: string;
 	notes: {
@@ -111,7 +111,7 @@ export const lvlData = [
 ] as const;
 
 export function sumLevels(l: LevelData, r: LevelData): LevelData {
-	if (l.diff !== r.diff) throw new Error('diff mismatch');
+	if (l.diff.id !== r.diff.id) throw new Error('diff mismatch');
 	if (l.rating !== r.rating) throw new Error('rating mismatch');
 	if (l.charter !== r.charter) throw new Error('charter mismatch');
 	return {
