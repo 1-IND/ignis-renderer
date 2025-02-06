@@ -4,6 +4,7 @@ import { Match, Show, Switch } from 'solid-js';
 import type { AnyF, FilteredChart } from '~/routes/maimai/range';
 
 import Badge, { toDXStar } from '../Badge';
+import { Level } from '../def';
 
 export function bgDimmed(url: string, alpha: number) {
 	return {
@@ -25,6 +26,10 @@ export function PlayCardA({ chart, goal, class: c }: { chart: FilteredChart; goa
 			class={clsx(
 				'flex flex-col items-center justify-center',
 				c,
+				chart.level === Level.REM && 'border-white border-6',
+				chart.level === Level.EXP && 'border-red-5 border-6',
+				chart.music.type !== 'UTG' && chart.level === Level.ADV && 'border-yellow-4 border-6',
+				chart.music.type !== 'UTG' && chart.level === Level.BAS && 'border-green-5 border-6',
 			)}
 			style={bgDimmed(chart.music.jacketImg, achieved ? 0.7 : 0.1)}
 		>
@@ -40,7 +45,7 @@ export function PlayCardA({ chart, goal, class: c }: { chart: FilteredChart; goa
 						<Badge.Sync class='w-50% h-50% object-contain' type={chart.score!.sync} />
 					</Match>
 					<Match when={goal?.type === 'star' && achieved}>
-						<Badge.DXS class='w-50% h-25% my-12.5% object-contain' acc={chart.score!.dxs / (chart.notes.total * 3)} />
+						<Badge.DXS class='w-50% h-30% my-10% object-contain' acc={chart.score!.dxs / (chart.notes.total * 3)} />
 					</Match>
 				</Switch>
 			</Show>
