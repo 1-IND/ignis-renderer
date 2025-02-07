@@ -20,36 +20,46 @@ function check<T>(m: T[], v: T) {
 }
 export function PlayCardA({ chart, goal, class: c }: { chart: FilteredChart; goal?: AnyF; class?: string }) {
 	const achieved = isGoalAchieved(goal, chart);
+	const acc = chart.score ? chart.score.dxs / (chart.notes.total * 3) : -1;
 
 	return (
 		<div
 			class={clsx(
-				'flex flex-col items-center justify-center',
+				'flex flex-col items-center justify-center relative',
 				c,
-				chart.level === Level.REM && 'border-white border-6',
-				chart.level === Level.EXP && 'border-red-5 border-6',
-				chart.music.type !== 'UTG' && chart.level === Level.ADV && 'border-yellow-4 border-6',
-				chart.music.type !== 'UTG' && chart.level === Level.BAS && 'border-green-5 border-6',
 			)}
 			style={bgDimmed(chart.music.jacketImg, achieved ? 0.7 : 0.1)}
 		>
-			<Show when={chart.score} fallback={<div class='w-50% h-50%' />}>
-				<Switch fallback={<div class='w-50% h-50%' />}>
+			<div class={clsx(
+				'absolute h-full w-full',
+				chart.level === Level.REM && 'border-white border-5',
+				chart.level === Level.EXP && 'border-red-5 border-5',
+				chart.music.type !== 'UTG' && chart.level === Level.ADV && 'border-yellow-4 border-5',
+				chart.music.type !== 'UTG' && chart.level === Level.BAS && 'border-green-5 border-5',
+			)}
+			/>
+			<Show when={chart.score} fallback={<div class='w-full h-50%' />}>
+				<Switch fallback={<div class='w-full h-50%' />}>
 					<Match when={goal?.type === 'rank' && achieved}>
-						<Badge.Rank class='w-50% h-50% object-contain' type={chart.score!.rank} />
+						<Badge.Rank class='w-full h-35% object-contain' type={chart.score!.rank} />
 					</Match>
 					<Match when={goal?.type === 'combo' && achieved}>
-						<Badge.Combo class='w-50% h-50% object-contain' type={chart.score!.combo} />
+						<Badge.Combo class='w-full h-50% object-contain' type={chart.score!.combo} />
 					</Match>
 					<Match when={goal?.type === 'sync' && achieved}>
-						<Badge.Sync class='w-50% h-50% object-contain' type={chart.score!.sync} />
+						<Badge.Sync class='w-full h-50% object-contain' type={chart.score!.sync} />
 					</Match>
 					<Match when={goal?.type === 'star' && achieved}>
-						<Badge.DXS class='w-50% h-30% my-10% object-contain' acc={chart.score!.dxs / (chart.notes.total * 3)} />
+						<Show
+							when={acc >= 0.93}
+							fallback={<Badge.DXS class='w-full h-30% object-contain' acc={acc} />}
+						>
+							<Badge.DXS class='w-full h-40% object-contain' acc={acc} />
+						</Show>
 					</Match>
 				</Switch>
 			</Show>
-			<div class='text-white text-2xl font-bold font-digit text-stroke-3 text-stroke-black' style={{ 'paint-order': 'stroke fill' }}>
+			<div class='text-white text-xl font-bold font-digit text-stroke-3 text-stroke-black bottom-2% absolute' style={{ 'paint-order': 'stroke fill' }}>
 				{chart.music.id}
 			</div>
 		</div>

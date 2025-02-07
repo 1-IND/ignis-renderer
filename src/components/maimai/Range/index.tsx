@@ -1,5 +1,8 @@
-import { createMemo, Show, For } from 'solid-js';
-import { Context, FilteredChart } from '~/routes/maimai/range';
+import clsx from 'clsx';
+import { createMemo, For, Show } from 'solid-js';
+
+import type { Context, FilteredChart } from '~/routes/maimai/range';
+
 import { isGoalAchieved, PlayCardA } from './PlayCardA';
 
 export function Range({ ctx }: { ctx: Context }) {
@@ -24,28 +27,34 @@ export function Range({ ctx }: { ctx: Context }) {
 					.from(chartMap())
 					?.sort((a, b) => b[0] - a[0])}
 				>
-					{([rating, charts]) => (
-						<div class='flex gap-4'>
-							<div class='flex'>
-								<div class='flex flex-col items-center justify-center w-32 p-2 border-rounded-xl bg-blue-5/60'>
-									<span class='text-3xl font-digit text-white'>{rating.toFixed(1)}</span>
-									<Show when={ctx.filter?.main}>
-										<span class='text-xl font-digit text-white'>
-											{`${charts.reduce((x, y) => x + Number(isGoalAchieved(ctx.filter!.main, y)), 0)} / ${charts.length}`}
-										</span>
-									</Show>
-									{/* TODO: stats */}
+					{([rating, charts]) => {
+						const achievedCount = charts.reduce((x, y) => x + Number(isGoalAchieved(ctx.filter?.main, y)), 0);
+
+						return (
+							<div class='flex gap-4'>
+								<div class='flex'>
+									<div class={clsx(
+										'flex flex-col items-center justify-center w-32 p-2 border-rounded-xl',
+										achievedCount !== charts.length ? 'bg-blue-5/60' : 'bg-green-5/60',
+									)}
+									>
+										<span class='text-3xl font-digit text-white'>{rating.toFixed(1)}</span>
+										<Show when={ctx.filter?.main}>
+											<span class='text-xl font-digit text-white'>{`${achievedCount} / ${charts.length}`}</span>
+										</Show>
+										{/* TODO: stats */}
+									</div>
+								</div>
+								<div class='grid flex-1 grid-cols-12 gap-4'>
+									<For each={charts}>
+										{chart => (
+											<PlayCardA class='aspect-ratio-square' chart={chart} goal={ctx.filter?.main} />
+										)}
+									</For>
 								</div>
 							</div>
-							<div class='grid flex-1 grid-cols-12 gap-4'>
-								<For each={charts}>
-									{chart => (
-										<PlayCardA class='aspect-ratio-square' chart={chart} goal={ctx.filter?.main} />
-									)}
-								</For>
-							</div>
-						</div>
-					)}
+						);
+					}}
 				</For>
 			</Show>
 		</div>
