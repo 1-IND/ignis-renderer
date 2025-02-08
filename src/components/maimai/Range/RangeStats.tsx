@@ -33,7 +33,7 @@ export function RangeStats({ charts, goal }: { charts?: FilteredChart[]; goal?: 
 		for (let i = 5; i >= 0; i--)
 			starMap.set(i, (starMap.get(i) ?? 0) + (starMap.get(i + 1) ?? 0));
 
-		let totalAchv = charts?.reduce((x, y) => x + (y.score?.acc ?? 0), 0);
+		const totalAchv = charts?.reduce((x, y) => x + (y.score?.acc ?? 0), 0);
 		const avgAchv = charts ? `${(totalAchv! / (charts.length * 1e4)).toFixed(4)}%` : 'N/A';
 
 		const achievedCount = charts?.reduce((x, y) => x + Number(isGoalAchieved(goal, y)), 0) ?? 0;
@@ -55,7 +55,7 @@ export function RangeStats({ charts, goal }: { charts?: FilteredChart[]; goal?: 
 					<li>{`Avg. Achievement: ${stats().avgAchv}`}</li>
 				</ul>
 
-				<div>Developed by tiger0132.</div>
+				<div>Developed by tiger0132 (supervised by shshsh).</div>
 			</div>
 		</div>
 	);
