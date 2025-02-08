@@ -15,17 +15,21 @@ export const toDXStar = (acc: number) => dxs.findLastIndex(dx => acc >= dx) + 1;
 export const rankBadge = (rank: RankType) => `prism/rank/UI_GAM_Rank_${RankType[rank]}`;
 export const comboBadge = (combo: ComboType) => `common/lamp/UI_MSS_MBase_Icon_${ComboType[combo]}`;
 export const syncBadge = (sync: SyncType) => `common/lamp/UI_MSS_MBase_Icon_${SyncType[sync]}`;
-export const dxsBadge = (acc: number) => `common/lamp/UI_GAM_Gauge_DXScoreIcon_0${toDXStar(acc)}`;
+export const dxsBadge = (star: number) => `common/lamp/UI_GAM_Gauge_DXScoreIcon_0${star}`;
 
+function DXStar({ type, class: c }: { type: number; class?: string }) {
+	return (
+		<Show when={type >= 1 && type <= 5} fallback={<span class={c}></span>}>
+			<img class={c} src={toAssetPath(dxsBadge(type))} />
+		</Show>
+	);
+}
 export default {
 	Combo: ({ type, class: c }: { type: ComboType; class?: string }) => <img class={c} src={toAssetPath(comboBadge(type))} />,
 	Sync: ({ type, class: c }: { type: SyncType; class?: string }) => <img class={c} src={toAssetPath(syncBadge(type))} />,
 	Rank: ({ type, class: c }: { type: RankType; class?: string }) => <img class={c} src={toAssetPath(rankBadge(type))} />,
-	DXS: ({ acc, class: c }: { acc: number; class?: string }) => (
-		<Show when={acc >= 0.85} fallback={<span class={c}></span>}>
-			<img class={c} src={toAssetPath(dxsBadge(acc))} />
-		</Show>
-	),
+	DXStar,
+	DXS: ({ acc, class: c }: { acc: number; class?: string }) => <DXStar class={c} type={toDXStar(acc)} />,
 	SongType: ({ type, utage, class: c }: { type: MusicType; utage?: UtageData; class?: string }) => {
 		return (
 			<Switch>
