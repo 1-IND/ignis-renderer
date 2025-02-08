@@ -19,7 +19,7 @@ export default function Main() {
 				<MusicCard class='p-8' music={ctx.music!} />
 			</Show>
 
-			<div class='border-8 border-solid border-rounded-xl p-2 m-8 mt-0 border-white/20 bg-white/40 text-center'>
+			<div class='m-8 mt-0 border-8 border-white/20 border-rounded-xl border-solid bg-white/40 p-2 text-center'>
 				<span class='font-digit'>Developed by shshsh & tiger0132. Design inspired by Yuri-YuzuChaN.</span>
 			</div>
 		</Background>

@@ -21,7 +21,7 @@ export default function Main() {
 		<Show when={ctx.user && ctx.best50}>
 			<Background class='w-400'>
 				<div class='m-8'>
-					<Frame class='flex flex-col gap-4 items-start p-4' user={ctx.user!}>
+					<Frame class='flex flex-col items-start gap-4 p-4' user={ctx.user!}>
 						<NamePlate user={ctx.user!} />
 						<div class='flex-1' />
 						<Best50Stats best50={ctx.best50!} />

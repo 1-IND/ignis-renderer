@@ -3,10 +3,10 @@ import type { JSX } from 'solid-js';
 
 import classNames from './Prism.module.css';
 
-export function Background({ children, class: c }: { children: JSX.Element; class?: string }) {
+export function Background(p: { children: JSX.Element; class?: string }) {
 	return (
-		<div id='container' class={clsx('relative overflow-hidden', c)}>
-			<div>{children}</div>
+		<div id='container' class={clsx('relative overflow-hidden', p.class)}>
+			<div>{p.children}</div>
 
 			<div class='z--100'>
 				<div class={classNames.maiDecorationBg}>

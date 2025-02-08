@@ -7,61 +7,61 @@ import { MusicTable } from './MusicTable';
 import { OptionTable } from './OptionTable';
 import { RatingTable } from './RatingTable';
 
-export function MusicCard({ music, class: c }: { music: MusicData; class?: string }) {
+export function MusicCard(p: { music: MusicData; class?: string }) {
 	return (
-		<div class={clsx('font-text flex justify-center', c)}>
-			<div class='border-8 border-solid border-rounded-xl p-4 border-white/20 w-240 bg-white/40'>
+		<div class={clsx('font-text flex justify-center', p.class)}>
+			<div class='w-240 border-8 border-white/20 border-rounded-xl border-solid bg-white/40 p-4'>
 				<div class='flex'>
 					<div class='relative mr-4'>
-						<img src={music.jacketImg} class='rounded-md h-50 w-50 object-cover' />
-						<Badge.SongType class={clsx('top-0 right-0 absolute', music.type === 'UTG' ? 'h-8' : 'h-6')} utage={music.utage} type={music.type} />
+						<img src={p.music.jacketImg} class='h-50 w-50 rounded-md object-cover' />
+						<Badge.SongType class={clsx('top-0 right-0 absolute', p.music.type === 'UTG' ? 'h-8' : 'h-6')} utage={p.music.utage} type={p.music.type} />
 					</div>
 
-					<div class='flex flex-col justify-between flex-1 truncate'>
+					<div class='flex flex-1 flex-col justify-between truncate'>
 						<div class='w-90%'>
-							<div class='text-4xl pb-2 font-semibold truncate'>{music.title}</div>
-							<div class='border-b border-5 border-black rounded-full' />
-							<div class='text-xl truncate pt-1'>{music.artist}</div>
+							<div class='truncate pb-2 text-4xl font-semibold'>{p.music.title}</div>
+							<div class='border-5 border-b border-black rounded-full' />
+							<div class='truncate pt-1 text-xl'>{p.music.artist}</div>
 						</div>
 
-						<div class='flex w-90% justify-between font-digit'>
-							<span class='text-xl'>{`ID: ${music.id}`}</span>
-							<span class='text-xl'>{`BPM: ${music.bpm}`}</span>
-							<span class='text-lg'>{`Version: ${music.version.name}`}</span>
-							<span class='text-lg'>{`Genre: ${music.genre.name}`}</span>
+						<div class='w-90% flex justify-between font-digit'>
+							<span class='text-xl'>{`ID: ${p.music.id}`}</span>
+							<span class='text-xl'>{`BPM: ${p.music.bpm}`}</span>
+							<span class='text-lg'>{`Version: ${p.music.version.name}`}</span>
+							<span class='text-lg'>{`Genre: ${p.music.genre.name}`}</span>
 						</div>
 
 						<div class='flex items-start'>
 							<div class='mr-2'>Charter:</div>
 							<div class='min-w-0'>
-								<Show when={!music.utage}>
-									<div class='text-red-5 truncate'>{`[Expert] ${music.levels[2].charter}`}</div>
-									<div class='text-purple-7 truncate'>{`[Master] ${music.levels[3].charter}`}</div>
-									<Show when={music.levels[4]}>
-										<div class='text-gray-7 truncate'>{`[Re:MASTER] ${music.levels[4].charter}`}</div>
+								<Show when={!p.music.utage}>
+									<div class='truncate text-red-5'>{`[Expert] ${p.music.levels[2].charter}`}</div>
+									<div class='truncate text-purple-7'>{`[Master] ${p.music.levels[3].charter}`}</div>
+									<Show when={p.music.levels[4]}>
+										<div class='truncate text-gray-7'>{`[Re:MASTER] ${p.music.levels[4].charter}`}</div>
 									</Show>
 								</Show>
-								<Show when={music.utage}>
-									<div class='text-pink-4 truncate'>{`[U·TA·GE] ${music.levels[0].charter || '-'}`}</div>
+								<Show when={p.music.utage}>
+									<div class='truncate text-pink-4'>{`[U·TA·GE] ${p.music.levels[0].charter || '-'}`}</div>
 								</Show>
 							</div>
 						</div>
 
-						<Show when={music.utage}>
-							<div class='text-pink-4 truncate'>
-								<span class='text-black mr-2'>Comment:</span>
-								{music.utage!.comment}
+						<Show when={p.music.utage}>
+							<div class='truncate text-pink-4'>
+								<span class='mr-2 text-black'>Comment:</span>
+								{p.music.utage!.comment}
 							</div>
 						</Show>
 					</div>
 				</div>
 
-				<MusicTable class='mt-6' music={music} />
+				<MusicTable class='mt-6' music={p.music} />
 
-				<div class='flex mt-6 justify-between'>
-					<RatingTable music={music} />
-					<Show when={music.utage}>
-						<OptionTable data={music.utage!.fixed} />
+				<div class='mt-6 flex justify-between'>
+					<RatingTable music={p.music} />
+					<Show when={p.music.utage}>
+						<OptionTable data={p.music.utage!.fixed} />
 					</Show>
 				</div>
 			</div>

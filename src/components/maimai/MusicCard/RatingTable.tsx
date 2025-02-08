@@ -4,19 +4,18 @@ import { For, Show } from 'solid-js';
 import Badge, { dxs, RankType } from '../Badge';
 import { calcRating, Level, lvlData, type MusicData } from '../def';
 
-export function RatingTable({ music, class: c }: { music: MusicData; class?: string }) {
-	let data = ['w-100%', 'w-11%', 'w-8%'];
-	if (music.utage) data = ['w-50%', 'w-22%', 'w-15.6%'];
-
-	const [tableW, lvlW, dxsW] = data;
+export function RatingTable(p: { music: MusicData; class?: string }) {
+	const style = () => !p.music.utage
+		? { tableW: 'w-100%', lvlW: 'w-11%', dxsW: 'w-8%' }
+		: { tableW: 'w-50%', lvlW: 'w-22%', dxsW: 'w-15.6%' };
 
 	return (
-		<table class={clsx('border-collapse rounded-lg overflow-hidden font-digit border-hidden', c, tableW)}>
+		<table class={clsx('border-collapse rounded-lg overflow-hidden font-digit border-hidden', p.class, style().tableW)}>
 			<thead>
 				<tr class='h-10'>
-					<th class={clsx('p-1 items-center bg-gray-2 border-b border-r border-gray-3', lvlW)} />
+					<th class={clsx('p-1 items-center bg-gray-2 border-b border-r border-gray-3', style().lvlW)} />
 
-					<Show when={!music.utage}>
+					<Show when={!p.music.utage}>
 						<For each={[RankType.SSSp, RankType.SSS, RankType.SSp, RankType.SS, RankType.Sp, RankType.S] as const}>
 							{rank => (
 								<th class={clsx('p-1 items-center bg-gray-2 border-b border-r border-gray-3 w-8%')}>
@@ -30,7 +29,7 @@ export function RatingTable({ music, class: c }: { music: MusicData; class?: str
 
 					<For each={[...dxs].reverse()}>
 						{acc => (
-							<th class={clsx('p-1 items-center bg-gray-2 border-b border-r border-gray-3', dxsW)}>
+							<th class={clsx('p-1 items-center bg-gray-2 border-b border-r border-gray-3', style().dxsW)}>
 								<div class='flex items-center justify-center'>
 									<Badge.DXS class='h-6 w-auto object-contain object-center' acc={acc} />
 								</div>
@@ -40,36 +39,37 @@ export function RatingTable({ music, class: c }: { music: MusicData; class?: str
 				</tr>
 			</thead>
 			<tbody>
-				<Show when={!music.utage}>
+				<Show when={!p.music.utage}>
 					<For each={[2, 3, 4]}>
-						{lvl => <RatingRow level={lvl} rating={music.levels[lvl]?.rating} notes={music.levels[lvl]?.notes?.total} />}
+						{lvl => <RatingRow level={lvl} rating={p.music.levels[lvl]?.rating} notes={p.music.levels[lvl]?.notes?.total} />}
 					</For>
 				</Show>
-				<Show when={music.utage?.dp === false}>
-					<RatingRow level={Level.UTG} notes={music.levels[0].notes.total} />
+				<Show when={p.music.utage?.dp === false}>
+					<RatingRow level={Level.UTG} notes={p.music.levels[0].notes.total} />
 				</Show>
-				<Show when={music.utage?.dp === true}>
-					<RatingRow level={Level.UTG_TOTAL} lvlName='[TOTAL]' notes={music.levels[0].notes.total + music.levels[1].notes.total} />
+				<Show when={p.music.utage?.dp === true}>
+					<RatingRow level={Level.UTG_TOTAL} lvlName='[TOTAL]' notes={p.music.levels[0].notes.total + p.music.levels[1].notes.total} />
 				</Show>
 			</tbody>
 		</table>
 	);
 };
 
-function RatingRow({ level, lvlName, rating, notes }: { level: Level; lvlName?: string; rating?: number; notes?: number }) {
-	const { name, bg, fg } = lvlData[level];
-	const dxsMax = notes != null ? 3 * notes : null;
+function RatingRow(props: { level: Level; lvlName?: string; rating?: number; notes?: number }) {
+	const style = () => lvlData[props.level];
+	const dxsBorder = (acc: number) => props.notes != null ? `-${Math.floor((3 * props.notes) * (1 - acc))}` : '-';
+
 	return (
 		<tr class='h-10'>
-			<td class={clsx('p-1 text-center bg-gray-1 border-r border-gray-300', bg)}>
-				<div class={clsx('font-text text-3.5', fg)}>{lvlName ?? name}</div>
+			<td class={clsx('p-1 text-center bg-gray-1 border-r border-gray-300', style().bg)}>
+				<div class={clsx('font-text text-3.5', style().fg)}>{props.lvlName ?? style().name}</div>
 			</td>
 
-			<Show when={level < Level.UTG}>
+			<Show when={props.level < Level.UTG}>
 				<For each={[1005000, 1000000, 995000, 990000, 980000, 970000]}>
 					{threshold => (
-						<td class='p-1 text-center bg-gray-100/60 border-b border-r border-gray-3 text-lg'>
-							{rating != null ? calcRating(rating, threshold) : '-'}
+						<td class='border-b border-r border-gray-3 bg-gray-100/60 p-1 text-center text-lg'>
+							{props.rating != null ? calcRating(props.rating, threshold) : '-'}
 						</td>
 					)}
 				</For>
@@ -78,7 +78,7 @@ function RatingRow({ level, lvlName, rating, notes }: { level: Level; lvlName?: 
 			<For each={[...dxs].reverse()}>
 				{acc => (
 					<td class={clsx('text-center bg-gray-100/60 border-b border-r border-gray-3 text-lg')}>
-						{dxsMax != null ? `-${Math.floor(dxsMax * (1 - acc))}` : '-'}
+						{dxsBorder(acc)}
 					</td>
 				)}
 			</For>

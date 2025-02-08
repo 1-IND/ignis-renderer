@@ -9,6 +9,7 @@ import './app.css';
 
 declare global {
 	function setContext(ctx: any): void;
+	// eslint-disable-next-line vars-on-top, no-var
 	var loaded: true;
 }
 

@@ -5,11 +5,11 @@ import type { Context, FilteredChart } from '~/routes/maimai/range';
 
 import { isGoalAchieved, PlayCardA } from './PlayCardA';
 
-export function Range({ ctx }: { ctx: Context }) {
+export function Range(props: { ctx: Context }) {
 	const chartMap = createMemo(() => {
 		const map = new Map<number, FilteredChart[]>();
-		if (!ctx.charts) return map;
-		for (const chart of ctx.charts) {
+		if (!props.ctx.charts) return map;
+		for (const chart of props.ctx.charts) {
 			const key = chart.rating;
 			if (!map.has(key)) map.set(key, []);
 			map.get(key)!.push(chart);
@@ -28,7 +28,8 @@ export function Range({ ctx }: { ctx: Context }) {
 					?.sort((a, b) => b[0] - a[0])}
 				>
 					{([rating, charts]) => {
-						const achievedCount = charts.reduce((x, y) => x + Number(isGoalAchieved(ctx.filter?.main, y)), 0);
+						// eslint-disable-next-line solid/reactivity
+						const achievedCount = charts.reduce((x, y) => x + Number(isGoalAchieved(props.ctx.filter?.main, y)), 0);
 
 						return (
 							<div class='flex gap-4'>
@@ -38,17 +39,17 @@ export function Range({ ctx }: { ctx: Context }) {
 										achievedCount !== charts.length ? 'bg-blue-5/60' : 'bg-green-5/60',
 									)}
 									>
-										<span class='text-3xl font-digit text-white'>{rating.toFixed(1)}</span>
-										<Show when={ctx.filter?.main}>
-											<span class='text-xl font-digit text-white'>{`${achievedCount} / ${charts.length}`}</span>
+										<span class='text-3xl text-white font-digit'>{rating.toFixed(1)}</span>
+										<Show when={props.ctx.filter?.main}>
+											<span class='text-xl text-white font-digit'>{`${achievedCount} / ${charts.length}`}</span>
 										</Show>
 										{/* TODO: stats */}
 									</div>
 								</div>
-								<div class='grid flex-1 grid-cols-12 gap-4'>
+								<div class='grid grid-cols-12 flex-1 gap-4'>
 									<For each={charts}>
 										{chart => (
-											<PlayCardA class='aspect-ratio-square' chart={chart} goal={ctx.filter?.main} />
+											<PlayCardA class='aspect-ratio-square' chart={chart} goal={props.ctx.filter?.main} />
 										)}
 									</For>
 								</div>

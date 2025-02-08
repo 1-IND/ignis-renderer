@@ -23,7 +23,9 @@
 	},
 	"devDependencies": {
 		"@antfu/eslint-config": "^3.16.0",
-		"eslint": "^9.19.0"
+		"@unocss/eslint-plugin": "^65.4.3",
+		"eslint": "^9.19.0",
+		"eslint-plugin-solid": "^0.14.5"
 	},
 	"overrides": {
 		"vite": "5.4.10"

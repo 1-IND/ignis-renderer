@@ -17,31 +17,31 @@ export const comboBadge = (combo: ComboType) => `common/lamp/UI_MSS_MBase_Icon_$
 export const syncBadge = (sync: SyncType) => `common/lamp/UI_MSS_MBase_Icon_${SyncType[sync]}`;
 export const dxsBadge = (star: number) => `common/lamp/UI_GAM_Gauge_DXScoreIcon_0${star}`;
 
-function DXStar({ type, class: c }: { type: number; class?: string }) {
+function DXStar(p: { type: number; class?: string }) {
 	return (
-		<Show when={type >= 1 && type <= 5} fallback={<span class={c}></span>}>
-			<img class={c} src={toAssetPath(dxsBadge(type))} />
+		<Show when={p.type >= 1 && p.type <= 5} fallback={<span class={p.class} />}>
+			<img class={p.class} src={toAssetPath(dxsBadge(p.type))} />
 		</Show>
 	);
 }
 export default {
-	Combo: ({ type, class: c }: { type: ComboType; class?: string }) => <img class={c} src={toAssetPath(comboBadge(type))} />,
-	Sync: ({ type, class: c }: { type: SyncType; class?: string }) => <img class={c} src={toAssetPath(syncBadge(type))} />,
-	Rank: ({ type, class: c }: { type: RankType; class?: string }) => <img class={c} src={toAssetPath(rankBadge(type))} />,
+	Combo: (p: { type: ComboType; class?: string }) => <img class={p.class} src={toAssetPath(comboBadge(p.type))} />,
+	Sync: (p: { type: SyncType; class?: string }) => <img class={p.class} src={toAssetPath(syncBadge(p.type))} />,
+	Rank: (p: { type: RankType; class?: string }) => <img class={p.class} src={toAssetPath(rankBadge(p.type))} />,
 	DXStar,
-	DXS: ({ acc, class: c }: { acc: number; class?: string }) => <DXStar class={c} type={toDXStar(acc)} />,
-	SongType: ({ type, utage, class: c }: { type: MusicType; utage?: UtageData; class?: string }) => {
+	DXS: (p: { acc: number; class?: string }) => <DXStar class={p.class} type={toDXStar(p.acc)} />,
+	SongType: (p: { type: MusicType; utage?: UtageData; class?: string }) => {
 		return (
 			<Switch>
-				<Match when={type === 'STD'}><img class={c} src={toAssetPath('common/infoicon/UI_MSS_Infoicon_StandardMode')} /></Match>
-				<Match when={type === 'DX'}><img class={c} src={toAssetPath('common/infoicon/UI_MSS_Infoicon_DeluxeMode')} /></Match>
-				<Match when={type === 'UTG'}>
-					<div class={clsx('flex', c)}>
-						<div class='z-1 relative'>
+				<Match when={p.type === 'STD'}><img class={p.class} src={toAssetPath('common/infoicon/UI_MSS_Infoicon_StandardMode')} /></Match>
+				<Match when={p.type === 'DX'}><img class={p.class} src={toAssetPath('common/infoicon/UI_MSS_Infoicon_DeluxeMode')} /></Match>
+				<Match when={p.type === 'UTG'}>
+					<div class={clsx('flex', p.class)}>
+						<div class='relative z-1'>
 							<img class='h-full' src={toAssetPath('common/infoicon/UI_MSS_Infoicon_Utage')} />
-							<div class='font-text text-size-60% text-white absolute top-1/2 left-1/2 transform-translate--50%'>{utage?.kanji}</div>
+							<div class='absolute left-1/2 top-1/2 transform-translate--50% text-size-60% text-white font-text'>{p.utage?.kanji}</div>
 						</div>
-						<Show when={utage?.dp}>
+						<Show when={p.utage?.dp}>
 							<img class='ml--4' src={toAssetPath('common/infoicon/UI_MSS_Infoicon_Utage_2P')} />
 						</Show>
 					</div>

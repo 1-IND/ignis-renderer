@@ -9,19 +9,19 @@ export const ratingPlateImg = (rating: number) => `common/dxrating/UI_CMN_DXRati
 export const digitImg = (digit: number) => `common/digit/UI_NUM_Drating_${digit}`;
 export const titleImg1 = (type: TitleType) => `common/title/UI_CMN_Shougou_${TitleType[type]}`;
 
-export function NamePlate({ user }: { user: User }) {
-	const digits = (user.rating | 0).toString().padStart(5, ' ').slice(-5).split('');
-	const rtDigitImgs = digits.map(digit => digit === ' ' ? null : toAssetPath(digitImg(+digit)));
-	const rtPlateImg = toAssetPath(ratingPlateImg(user.rating));
-	const titleImg = toAssetPath(titleImg1(user.title.type));
+export function NamePlate(props: { user: User }) {
+	const digits = () => (props.user.rating | 0).toString().padStart(5, ' ').slice(-5).split('');
+	const rtDigitImgs = () => digits().map(d => d === ' ' ? null : toAssetPath(digitImg(+d)));
+	const rtPlateImg = () => bg(toAssetPath(ratingPlateImg(props.user.rating)));
+	const titleImg = () => bg(toAssetPath(titleImg1(props.user.title.type)));
 
 	return (
-		<div class='flex p-2 aspect-ratio-720/116 w-256' style={bg(user.nameplateImg)}>
-			<img class='h-100%' src={user.iconImg} />
+		<div class='aspect-ratio-720/116 w-256 flex p-2' style={bg(props.user.nameplateImg)}>
+			<img class='h-100%' src={props.user.iconImg} />
 
-			<div class='flex flex-col items-start justify-between ml-1.5 flex-1'>
-				<div class='flex items-center pl-29 h-12 aspect-ratio-662/128' style={bg(rtPlateImg)}>
-					<For each={rtDigitImgs}>
+			<div class='ml-1.5 flex flex-1 flex-col items-start justify-between'>
+				<div class='aspect-ratio-662/128 h-12 flex items-center pl-29' style={rtPlateImg()}>
+					<For each={rtDigitImgs()}>
 						{img => (
 							<Show when={img} fallback={<span class='w-4.125' />}>
 								<img src={img!} class='h-6 w-5' />
@@ -30,16 +30,16 @@ export function NamePlate({ user }: { user: User }) {
 					</For>
 				</div>
 
-				<div class='flex items-center px-2 h-14 w-98 bg-white rounded-md overflow-hidden whitespace-nowrap'>
-					<span class='font-size-7.75'>{user.name}</span>
+				<div class='h-14 w-98 flex items-center overflow-hidden whitespace-nowrap rounded-md bg-white px-2'>
+					<span class='font-size-7.75'>{props.user.name}</span>
 				</div>
 
-				<div class='flex items-center justify-center h-10.25 px-2 truncate aspect-ratio-272/29' style={bg(titleImg)}>
+				<div class='aspect-ratio-272/29 h-10.25 flex items-center justify-center truncate px-2' style={titleImg()}>
 					<span
-						class='px-1 text-white text-xl mb-1 text-stroke-3 text-stroke-black truncate'
+						class='mb-1 truncate px-1 text-xl text-white text-stroke-3 text-stroke-black'
 						style={{ 'paint-order': 'stroke fill' }}
 					>
-						{user.title.text}
+						{props.user.title.text}
 					</span>
 				</div>
 			</div>
