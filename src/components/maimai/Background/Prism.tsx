@@ -1,9 +1,12 @@
+import { useLocation } from '@solidjs/router';
 import clsx from 'clsx';
 import { type JSX, Show } from 'solid-js';
 
 import classNames from './Prism.module.css';
 
 export function Background(p: { children: JSX.Element; class?: string }) {
+	const location = useLocation();
+
 	return (
 		<div id='container' class={clsx('relative overflow-hidden', p.class)}>
 			<div>{p.children}</div>
