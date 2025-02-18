@@ -6,6 +6,7 @@ import type { ComboType, Level, MusicData, RankType, Score, SyncType, User } fro
 import { Frame } from '~/components/maimai/player/Frame';
 import { NamePlate } from '~/components/maimai/player/NamePlate';
 import { Range } from '~/components/maimai/Range';
+import { FilterDisplay } from '~/components/maimai/Range/FilterDisplay';
 import { RangeStats } from '~/components/maimai/Range/RangeStats';
 
 export interface RankF { type: 'rank'; value: RankType[] }
@@ -46,7 +47,10 @@ export default function Main() {
 					<Frame class='flex flex-col items-start gap-4 p-4' user={ctx.user!}>
 						<NamePlate user={ctx.user!} />
 						<div class='flex-1' />
-						<RangeStats charts={ctx.charts!} goal={ctx.filter!.main} />
+						<div class='flex items-end gap-4'>
+							<RangeStats charts={ctx.charts!} goal={ctx.filter!.main} />
+							<FilterDisplay filter={ctx.filter!} />
+						</div>
 					</Frame>
 				</div>
 

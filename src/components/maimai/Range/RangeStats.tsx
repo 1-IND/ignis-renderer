@@ -7,13 +7,13 @@ import type { AnyF, FilteredChart } from '~/routes/maimai/range';
 
 import { isGoalAchieved } from './PlayCardA';
 
-export function RangeStats(props: { charts: FilteredChart[]; goal?: AnyF }) {
+export function RangeStats(p: { charts: FilteredChart[]; goal?: AnyF }) {
 	const stats = createMemo(() => {
 		const rankMap = new Map<RankType, number>([[RankType.SSSp, 0]]);
 		const comboMap = new Map<ComboType, number>([[ComboType.APp, 0]]);
 		const syncMap = new Map<SyncType, number>([[SyncType.FSDp, 0]]);
 		const starMap = new Map<number, number>([[5, 0]]);
-		for (const chart of props.charts) {
+		for (const chart of p.charts) {
 			if (!chart.score) continue;
 			const { rank, combo, sync, dxs } = chart.score;
 			rankMap.set(rank, (rankMap.get(rank) ?? 0) + 1);
@@ -33,14 +33,14 @@ export function RangeStats(props: { charts: FilteredChart[]; goal?: AnyF }) {
 		for (let i = 5; i >= 0; i--)
 			starMap.set(i, (starMap.get(i) ?? 0) + (starMap.get(i + 1) ?? 0));
 
-		const totalAchv = props.charts.reduce((x, y) => x + (y.score?.acc ?? 0), 0);
-		const avgAchv = `${(totalAchv / (props.charts.length * 1e4)).toFixed(4)}%`;
+		const totalAchv = p.charts.reduce((x, y) => x + (y.score?.acc ?? 0), 0);
+		const avgAchv = `${(totalAchv / (p.charts.length * 1e4)).toFixed(4)}%`;
 
 		return { rankMap, comboMap, syncMap, starMap, avgAchv };
 	});
-	// eslint-disable-next-line solid/reactivity
-	const achievedCnt = createMemo(() => props.charts?.reduce((x, y) => x + Number(isGoalAchieved(props.goal, y)), 0) ?? 0);
-	const total = () => props.charts?.length ?? 0;
+
+	const achievedCnt = createMemo(() => p.charts?.reduce((x, y) => x + Number(isGoalAchieved(p.goal, y)), 0) ?? 0);
+	const total = () => p.charts?.length ?? 0;
 
 	return (
 		<div class='rounded-xl bg-white/80 p-3 font-digit'>
