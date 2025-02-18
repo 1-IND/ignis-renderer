@@ -1,3 +1,4 @@
+import { clsx } from 'clsx';
 import type { Component } from 'solid-js';
 import { createMemo, For } from 'solid-js';
 
@@ -74,7 +75,7 @@ function StatsRow<T>(props: {
 				{(rank) => {
 					const cnt = props.map.get(rank) ?? 0;
 					return (
-						<div class='w-15 flex flex-col items-center border-2 border-blue-4 rounded-xl bg-blue/50 px-1'>
+						<div class={clsx('w-15 flex flex-col items-center border-2 rounded-xl px-1', cnt === props.total ? 'border-green-4 bg-green/50' : 'border-blue-4 bg-blue/50')}>
 							<props.el class='h-5' type={rank} />
 							<div class='line-height-none'>{cnt === props.total ? 'MAX' : cnt}</div>
 						</div>
