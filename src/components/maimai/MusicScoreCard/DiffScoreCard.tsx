@@ -8,7 +8,7 @@ import { calcRating, lvlData } from '../def';
 export function DiffScoreCard(p: { music: MusicData; diff: number; score: Omit<Score, 'music'> | undefined }) {
 	console.log(p);
 	const centerClass = 'flex items-center justify-center';
-	const gridClass = 'h-74px w-90% rounded-10px flex items-center justify-center';
+	const gridClass = 'h-64px w-90% rounded-10px flex items-center justify-center';
 	const d = () => {
 		if (!p.score) return {};
 		const dxsMax = 3 * p.music.levels[p.diff]?.notes.total;
