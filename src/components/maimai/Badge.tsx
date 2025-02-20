@@ -13,6 +13,7 @@ export const dxs = [0.85, 0.90, 0.93, 0.95, 0.97];
 export const toDXStar = (acc: number) => dxs.findLastIndex(dx => acc >= dx) + 1;
 
 export const rankBadge = (rank: RankType) => `prism/rank/UI_GAM_Rank_${RankType[rank]}`;
+export const rankBadgeL = (rank: RankType) => `prism/rank/UI_TTR_Rank_${RankType[rank]}`;
 export const comboBadge = (combo: ComboType) => `common/lamp/UI_MSS_MBase_Icon_${ComboType[combo]}`;
 export const syncBadge = (sync: SyncType) => `common/lamp/UI_MSS_MBase_Icon_${SyncType[sync]}`;
 export const dxsBadge = (star: number) => `common/lamp/UI_GAM_Gauge_DXScoreIcon_0${star}`;
@@ -28,6 +29,7 @@ export default {
 	Combo: (p: { type: ComboType; class?: string }) => <img class={p.class} src={toAssetPath(comboBadge(p.type))} />,
 	Sync: (p: { type: SyncType; class?: string }) => <img class={p.class} src={toAssetPath(syncBadge(p.type))} />,
 	Rank: (p: { type: RankType; class?: string }) => <img class={p.class} src={toAssetPath(rankBadge(p.type))} />,
+	RankL: (p: { type: RankType; class?: string }) => <img class={p.class} src={toAssetPath(rankBadgeL(p.type))} />,
 	DXStar,
 	DXS: (p: { acc: number; class?: string }) => <DXStar class={p.class} type={toDXStar(p.acc)} />,
 	SongType: (p: { type: MusicType; utage?: UtageData; class?: string }) => {
