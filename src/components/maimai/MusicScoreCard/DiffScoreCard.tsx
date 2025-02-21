@@ -6,11 +6,11 @@ import Badge, { dxs, toDXStar } from '../Badge';
 import type { LevelData, Score } from '../def';
 import { calcRating, Level, lvlData } from '../def';
 
-export function DiffScoreCard(p: { chart: LevelData; diff: Level; score: Omit<Score, 'music'> | undefined }) {
+export function DiffScoreCard(p: { chart?: LevelData; diff: Level; score?: Omit<Score, 'music'> }) {
 	const centerClass = 'flex items-center justify-center';
 	const gridClass = 'w-full h-full rounded-10px flex items-center justify-center';
 	const d = () => {
-		if (!p.score) return null;
+		if (!p.score || !p.chart) return null;
 		const dxsMax = 3 * p.chart.notes.total;
 		const score = p.score.dxs;
 		const dxAcc = score / dxsMax;
@@ -19,6 +19,7 @@ export function DiffScoreCard(p: { chart: LevelData; diff: Level; score: Omit<Sc
 		const dxsBorder = d > 0 ? 'WTF' : d === 0 ? 'MAX' : `${dxStar === 6 ? 'MAX' : `⭐${dxStar}`} ${d}`;
 		return { dxsMax, dxAcc, dxStar, dxsBorder };
 	};
+	const present = () => !!(p.score && p.chart);
 	const style = () => lvlData[p.diff];
 	const SmallBox = (_p: { class?: string; children?: JSX.Element }) => (
 		<div class={clsx(centerClass, _p.class)}>
@@ -32,23 +33,23 @@ export function DiffScoreCard(p: { chart: LevelData; diff: Level; score: Omit<Sc
 	return (
 		<div class={clsx('mt-2 font-bold font-digit', centerClass)}>
 			<div class='h-20 w-100% flex justify-between'>
-				<div class={clsx('w-36 rounded-3 shadow-md', style().bg, centerClass)}>
+				<div class={clsx('w-36 rounded-3 shadow-md', style().bg, !!p.chart || 'opacity-40', centerClass)}>
 					<div class={clsx('text-center', style().fg)}>
 						<div class='font-size-5 font-text'>{style().name}</div>
 						<div class='font-size-4.4 font-digit'>
-							<Show when={p.chart.rating} fallback='&emsp;'>
-								{p.diff === Level.UTG ? `${p.chart.diff.name}?` : p.chart.rating.toFixed(1)}
+							<Show when={p.chart} fallback='&emsp;'>
+								{p.diff === Level.UTG ? `${p.chart!.diff.name}?` : p.chart!.rating.toFixed(1)}
 							</Show>
 						</div>
 					</div>
 				</div>
-				<div class={clsx('ml-6 py-2 px-3 rounded-3 shadow-md flex gap-3 w-192', style().bg, !!p.score || 'opacity-40')}>
-					<Show when={p.score}>
+				<div class={clsx('ml-6 py-2 px-3 rounded-3 shadow-md flex gap-3 w-192', style().bg, present() || 'opacity-40')}>
+					<Show when={present()}>
 						<SmallBox class='w-36 font-size-6.5'>
 							{`${(p.score!.acc / 10000).toFixed(4)}%`}
 						</SmallBox>
 						<SmallBox class='w-16 font-size-6.5'>
-							{p.diff === Level.UTG ? '-' : calcRating(p.chart.rating, p.score!.acc)}
+							{p.diff === Level.UTG ? '-' : calcRating(p.chart!.rating, p.score!.acc)}
 						</SmallBox>
 						<SmallBox class='w-44'>
 							<div class='flex flex-col'>
