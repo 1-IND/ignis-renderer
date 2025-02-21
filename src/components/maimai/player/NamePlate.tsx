@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { For, Show } from 'solid-js';
 
 import { bg, TitleType, toAssetPath, type User } from '../def';
@@ -9,14 +10,14 @@ export const ratingPlateImg = (rating: number) => `common/dxrating/UI_CMN_DXRati
 export const digitImg = (digit: number) => `common/digit/UI_NUM_Drating_${digit}`;
 export const titleImg1 = (type: TitleType) => `common/title/UI_CMN_Shougou_${TitleType[type]}`;
 
-export function NamePlate(props: { user: User }) {
+export function NamePlate(props: { user: User; class?: string }) {
 	const digits = () => (props.user.rating | 0).toString().padStart(5, ' ').slice(-5).split('');
 	const rtDigitImgs = () => digits().map(d => d === ' ' ? null : toAssetPath(digitImg(+d)));
 	const rtPlateImg = () => bg(toAssetPath(ratingPlateImg(props.user.rating)));
 	const titleImg = () => bg(toAssetPath(titleImg1(props.user.title.type)));
 
 	return (
-		<div class='aspect-ratio-720/116 w-256 flex p-2' style={bg(props.user.nameplateImg)}>
+		<div class={clsx('aspect-ratio-720/116 w-256 flex p-2', props.class)} style={bg(props.user.nameplateImg)}>
 			<img class='h-100%' src={props.user.iconImg} />
 
 			<div class='ml-1.5 flex flex-1 flex-col items-start justify-between'>
