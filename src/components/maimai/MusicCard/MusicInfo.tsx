@@ -2,11 +2,11 @@ import clsx from 'clsx';
 import { Show } from 'solid-js';
 
 import Badge from '../Badge';
-import type { MusicData, Score } from '../def';
+import type { MusicData } from '../def';
 
-export function MusicInfoCard(p: { music: MusicData; scores: Omit<Score, 'music'>[]; class?: string }) {
+export function MusicInfo(p: { music: MusicData; class?: string }) {
 	return (
-		<div class='flex'>
+		<div class={clsx('flex', p.class)}>
 			<div class='relative mr-4'>
 				<img src={p.music.jacketImg} class='h-50 w-50 rounded-md object-cover' />
 				<Badge.SongType class={clsx('top-0 right-0 absolute', p.music.type === 'UTG' ? 'h-8' : 'h-6')} utage={p.music.utage} type={p.music.type} />
