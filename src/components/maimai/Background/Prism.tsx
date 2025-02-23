@@ -1,6 +1,7 @@
 import { useLocation } from '@solidjs/router';
 import clsx from 'clsx';
-import { type JSX, Show } from 'solid-js';
+import { Show } from 'solid-js';
+import type { JSX } from 'solid-js';
 
 import classNames from './Prism.module.css';
 

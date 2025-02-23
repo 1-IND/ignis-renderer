@@ -1,7 +1,8 @@
 import clsx from 'clsx';
 import { For, Show } from 'solid-js';
 
-import { bg, TitleType, toAssetPath, type User } from '../def';
+import { bg, TitleType, toAssetPath } from '../def';
+import type { User } from '../def';
 
 export const ratingBounds = [0, 1000, 2000, 4000, 7000, 10000, 12000, 13000, 14000, 14500, 15000];
 export const toPlateNum = (rating: number) => ratingBounds.findLastIndex(r => rating >= r) + 1;

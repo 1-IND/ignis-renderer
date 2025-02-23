@@ -2,7 +2,8 @@ import clsx from 'clsx';
 import { For, Show } from 'solid-js';
 
 import Badge, { dxs, RankType } from '../Badge';
-import { calcRating, Diff, diffData, type MusicData } from '../def';
+import { calcRating, Diff, diffData } from '../def';
+import type { MusicData } from '../def';
 
 export function RatingTable(p: { music: MusicData; class?: string }) {
 	const style = () => !p.music.utage

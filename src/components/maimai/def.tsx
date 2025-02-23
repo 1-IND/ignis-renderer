@@ -15,7 +15,7 @@ export interface MusicData {
 	genre: { id: number; name: string };
 	bpm: number;
 	diffs: DiffData[];
-	utage?: UtageData;
+	utage: UtageData | null;
 
 	jacketImg: string;
 	versionImg: string;

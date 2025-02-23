@@ -1,7 +1,8 @@
 import clsx from 'clsx';
 import type { JSX } from 'solid-js';
 
-import { bg, type User } from '../def';
+import { bg } from '../def';
+import type { User } from '../def';
 
 export function Frame(props: { user: User; class?: string; children: JSX.Element }) {
 	return (
