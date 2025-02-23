@@ -1,8 +1,8 @@
 import clsx from 'clsx';
 import { For, Show } from 'solid-js';
 
-import type { LevelData, MusicData } from '../def';
-import { Level, lvlData, sumLevels } from '../def';
+import type { DiffData, MusicData } from '../def';
+import { Diff, diffData, sumDiffs } from '../def';
 
 export function MusicTable(p: { music: MusicData; class?: string }) {
 	return (
@@ -50,23 +50,23 @@ export function MusicTable(p: { music: MusicData; class?: string }) {
 			</thead>
 			<tbody>
 				<Show when={!p.music.utage}>
-					<For each={[0, 1, 2, 3, 4]}>{lvl => <DiffRow level={lvl} data={p.music.levels[lvl]} />}</For>
+					<For each={[Diff.BAS, Diff.ADV, Diff.EXP, Diff.MAS, Diff.REM]}>{lvl => <DiffRow diff={lvl} data={p.music.diffs[lvl]} />}</For>
 				</Show>
 				<Show when={p.music.utage?.dp === false}>
-					<DiffRow level={Level.UTG} data={p.music.levels[0]} />
+					<DiffRow diff={Diff.UTG} data={p.music.diffs[0]} />
 				</Show>
 				<Show when={p.music.utage?.dp === true}>
-					<DiffRow level={Level.UTG} lvlName='[LEFT]' noDelta data={p.music.levels[0]} />
-					<DiffRow level={Level.UTG} lvlName='[RIGHT]' noDelta data={p.music.levels[1]} />
-					<DiffRow level={Level.UTG_TOTAL} lvlName='[TOTAL]' data={sumLevels(p.music.levels[0], p.music.levels[1])} />
+					<DiffRow diff={Diff.UTG} diffName='[LEFT]' noDelta data={p.music.diffs[0]} />
+					<DiffRow diff={Diff.UTG} diffName='[RIGHT]' noDelta data={p.music.diffs[1]} />
+					<DiffRow diff={Diff.UTG_TOTAL} diffName='[TOTAL]' data={sumDiffs(p.music.diffs[0], p.music.diffs[1])} />
 				</Show>
 			</tbody>
 		</table>
 	);
 }
 
-function DiffRow(p: { level: Level; lvlName?: string; noDelta?: true; data?: LevelData }) {
-	const style = () => lvlData[p.level];
+function DiffRow(p: { diff: Diff; diffName?: string; noDelta?: true; data?: DiffData }) {
+	const style = () => diffData[p.diff];
 	const stats = () => {
 		let sum, tapGreatDelta, break2550Delta, ratioTB, toleranceTap;
 		sum = tapGreatDelta = break2550Delta = ratioTB = toleranceTap = 0;
@@ -76,7 +76,7 @@ function DiffRow(p: { level: Level; lvlName?: string; noDelta?: true; data?: Lev
 			break2550Delta = 0.25 / p.data.notes.break;
 			ratioTB = break2550Delta / tapGreatDelta;
 			toleranceTap = 0.5 / tapGreatDelta;
-			if (p.level === Level.UTG_TOTAL) {
+			if (p.diff === Diff.UTG_TOTAL) {
 				tapGreatDelta *= 2;
 				break2550Delta *= 2;
 			}
@@ -87,13 +87,13 @@ function DiffRow(p: { level: Level; lvlName?: string; noDelta?: true; data?: Lev
 	return (
 		<tr>
 			<td class={clsx('p-1 text-center bg-gray-100 border-r border-gray-300 h-12.5', style().bg)}>
-				<div class={clsx('font-text text-sm', style().fg)}>{p.lvlName ?? style().name}</div>
+				<div class={clsx('font-text text-sm', style().fg)}>{p.diffName ?? style().name}</div>
 				<Show when={p.data} fallback={<div class='leading-5 font-digit'>&emsp;</div>}>
 					<Show
-						when={p.level < Level.UTG}
-						fallback={<div class={clsx('font-digit leading-5', style().fg)}>{`${p.data!.diff.name}?`}</div>}
+						when={p.diff < Diff.UTG}
+						fallback={<div class={clsx('font-digit leading-5', style().fg)}>{`${p.data!.level.name}?`}</div>}
 					>
-						<div class={clsx('font-digit leading-5', style().fg)}>{`${p.data!.diff.name} (${p.data!.rating.toFixed(1)})`}</div>
+						<div class={clsx('font-digit leading-5', style().fg)}>{`${p.data!.level.name} (${p.data!.rating.toFixed(1)})`}</div>
 					</Show>
 				</Show>
 			</td>

@@ -2,11 +2,11 @@ import clsx from 'clsx';
 
 import Badge, { dxs, toDXStar } from './Badge';
 import type { Score } from './def';
-import { calcRating, lvlData } from './def';
+import { calcRating, diffData } from './def';
 
 export function PlayCard(p: { score: Score }) {
 	const music = () => p.score.music;
-	const chart = () => music().levels[p.score.level];
+	const chart = () => music().diffs[p.score.diff];
 	const rating = () => calcRating(chart().rating, p.score.acc);
 
 	const dxsMax = () => 3 * chart().notes.total;
@@ -17,7 +17,7 @@ export function PlayCard(p: { score: Score }) {
 		return d > 0 ? 'WTF' : d === 0 ? 'MAX' : `${dxStar() === 6 ? 'MAX' : `⭐${dxStar()}`} ${d}`;
 	};
 
-	const style = () => lvlData[p.score.level];
+	const style = () => diffData[p.score.diff];
 
 	return (
 		<div class={clsx('flex overflow-hidden rounded-md p-1 relative font-semibold', style().fg, style().bg)}>

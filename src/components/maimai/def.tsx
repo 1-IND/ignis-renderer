@@ -3,7 +3,7 @@ import { ComboType, RankType, SyncType } from '~/components/maimai/Badge';
 
 export { ComboType, RankType, SyncType };
 export type { MusicType };
-export enum Level { BAS, ADV, EXP, MAS, REM, UTG, UTG_TOTAL }
+export enum Diff { BAS, ADV, EXP, MAS, REM, UTG, UTG_TOTAL }
 export enum TitleType { Normal, Bronze, Silver, Gold, Rainbow }
 
 export interface MusicData {
@@ -14,14 +14,14 @@ export interface MusicData {
 	version: { id: number; name: string };
 	genre: { id: number; name: string };
 	bpm: number;
-	levels: LevelData[];
+	diffs: DiffData[];
 	utage?: UtageData;
 
 	jacketImg: string;
 	versionImg: string;
 }
-export interface LevelData {
-	diff: { id: number; name: string };
+export interface DiffData {
+	level: { id: number; name: string };
 	rating: number;
 	charter: string;
 	notes: {
@@ -43,7 +43,7 @@ export interface UtageData {
 export interface Score {
 	music: MusicData;
 
-	level: Level;
+	diff: Diff;
 	acc: number;
 	dxs: number;
 
@@ -100,7 +100,7 @@ export function calcRating(baseRating: number, achi: number) {
 }
 
 const _ = (name: string, bg: string, fg: string, bgBadges: string) => ({ name, bg, fg, bgBadges }) as const;
-export const lvlData = [
+export const diffData = [
 	_('Basic', 'bg-green-5', 'text-white', 'bg-green-6'),
 	_('Advanced', 'bg-yellow-4', 'text-white', 'bg-yellow-5'),
 	_('Expert', 'bg-red-5', 'text-white', 'bg-red-6'),
@@ -110,12 +110,12 @@ export const lvlData = [
 	_('U·TA·GE', 'bg-pink-5', 'text-white', ''), // TODO: kanji & dp display
 ] as const;
 
-export function sumLevels(l: LevelData, r: LevelData): LevelData {
-	if (l.diff.id !== r.diff.id) throw new Error('diff mismatch');
+export function sumDiffs(l: DiffData, r: DiffData): DiffData {
+	if (l.level.id !== r.level.id) throw new Error('level mismatch');
 	if (l.rating !== r.rating) throw new Error('rating mismatch');
 	if (l.charter !== r.charter) throw new Error('charter mismatch');
 	return {
-		diff: l.diff,
+		level: l.level,
 		rating: l.rating,
 		charter: l.charter,
 		notes: {

@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import { Show } from 'solid-js';
 
 import Badge from '../Badge';
+import { Diff } from '../def';
 import type { MusicData } from '../def';
 
 export function MusicInfo(p: { music: MusicData; class?: string }) {
@@ -30,14 +31,14 @@ export function MusicInfo(p: { music: MusicData; class?: string }) {
 					<div class='mr-2'>Charter:</div>
 					<div class='min-w-0'>
 						<Show when={!p.music.utage}>
-							<div class='truncate text-red-5'>{`[Expert] ${p.music.levels[2].charter}`}</div>
-							<div class='truncate text-purple-7'>{`[Master] ${p.music.levels[3].charter}`}</div>
-							<Show when={p.music.levels[4]}>
-								<div class='truncate text-gray-7'>{`[Re:MASTER] ${p.music.levels[4].charter}`}</div>
+							<div class='truncate text-red-5'>{`[Expert] ${p.music.diffs[Diff.EXP].charter}`}</div>
+							<div class='truncate text-purple-7'>{`[Master] ${p.music.diffs[Diff.MAS].charter}`}</div>
+							<Show when={p.music.diffs[Diff.REM]}>
+								<div class='truncate text-gray-7'>{`[Re:MASTER] ${p.music.diffs[Diff.REM].charter}`}</div>
 							</Show>
 						</Show>
 						<Show when={p.music.utage}>
-							<div class='truncate text-pink-4'>{`[U·TA·GE] ${p.music.levels[0].charter || '-'}`}</div>
+							<div class='truncate text-pink-4'>{`[U·TA·GE] ${p.music.diffs[0].charter || '-'}`}</div>
 						</Show>
 					</div>
 				</div>

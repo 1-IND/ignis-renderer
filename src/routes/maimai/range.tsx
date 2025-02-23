@@ -2,7 +2,7 @@ import { Show } from 'solid-js';
 import { createStore } from 'solid-js/store';
 
 import { Background } from '~/components/maimai/Background/Prism';
-import type { ComboType, Level, MusicData, RankType, Score, SyncType, User } from '~/components/maimai/def';
+import type { ComboType, Diff, MusicData, RankType, Score, SyncType, User } from '~/components/maimai/def';
 import { Frame } from '~/components/maimai/player/Frame';
 import { NamePlate } from '~/components/maimai/player/NamePlate';
 import { Range } from '~/components/maimai/Range';
@@ -16,8 +16,8 @@ export interface StarF { type: 'star'; value: number[] }
 export type AnyF = RankF | ComboF | SyncF | StarF;
 
 export interface Filter {
-	level: Level[];
-	diff: string[];
+	diff: Diff[];
+	level: string[];
 	rating: number[];
 	version: string[];
 
@@ -29,7 +29,7 @@ export interface Filter {
 		star: number[];
 	};
 }
-export type FilteredChart = MusicData['levels'][number] & { level: number; score?: Score; music: MusicData };
+export type FilteredChart = MusicData['diffs'][number] & { diff: Diff; score?: Score; music: MusicData };
 export interface Context {
 	user?: User;
 	filter?: Filter;

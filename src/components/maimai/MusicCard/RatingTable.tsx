@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { For, Show } from 'solid-js';
 
 import Badge, { dxs, RankType } from '../Badge';
-import { calcRating, Level, lvlData, type MusicData } from '../def';
+import { calcRating, Diff, diffData, type MusicData } from '../def';
 
 export function RatingTable(p: { music: MusicData; class?: string }) {
 	const style = () => !p.music.utage
@@ -41,22 +41,22 @@ export function RatingTable(p: { music: MusicData; class?: string }) {
 			<tbody>
 				<Show when={!p.music.utage}>
 					<For each={[2, 3, 4]}>
-						{lvl => <RatingRow level={lvl} rating={p.music.levels[lvl]?.rating} notes={p.music.levels[lvl]?.notes?.total} />}
+						{lvl => <RatingRow level={lvl} rating={p.music.diffs[lvl]?.rating} notes={p.music.diffs[lvl]?.notes?.total} />}
 					</For>
 				</Show>
 				<Show when={p.music.utage?.dp === false}>
-					<RatingRow level={Level.UTG} notes={p.music.levels[0].notes.total} />
+					<RatingRow level={Diff.UTG} notes={p.music.diffs[0].notes.total} />
 				</Show>
 				<Show when={p.music.utage?.dp === true}>
-					<RatingRow level={Level.UTG_TOTAL} lvlName='[TOTAL]' notes={p.music.levels[0].notes.total + p.music.levels[1].notes.total} />
+					<RatingRow level={Diff.UTG_TOTAL} lvlName='[TOTAL]' notes={p.music.diffs[0].notes.total + p.music.diffs[1].notes.total} />
 				</Show>
 			</tbody>
 		</table>
 	);
 };
 
-function RatingRow(props: { level: Level; lvlName?: string; rating?: number; notes?: number }) {
-	const style = () => lvlData[props.level];
+function RatingRow(props: { level: Diff; lvlName?: string; rating?: number; notes?: number }) {
+	const style = () => diffData[props.level];
 	const dxsBorder = (acc: number) => props.notes != null ? `-${Math.floor((3 * props.notes) * (1 - acc))}` : '-';
 
 	return (
@@ -65,7 +65,7 @@ function RatingRow(props: { level: Level; lvlName?: string; rating?: number; not
 				<div class={clsx('font-text text-3.5', style().fg)}>{props.lvlName ?? style().name}</div>
 			</td>
 
-			<Show when={props.level < Level.UTG}>
+			<Show when={props.level < Diff.UTG}>
 				<For each={[1005000, 1000000, 995000, 990000, 980000, 970000]}>
 					{threshold => (
 						<td class='border-b border-r border-gray-3 bg-gray-100/60 p-1 text-center text-lg'>

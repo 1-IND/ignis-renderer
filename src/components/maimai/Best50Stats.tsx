@@ -5,7 +5,7 @@ import type { Best50, Score } from './def';
 import { calcRating } from './def';
 
 export function Best50Stats(p: { best50: Best50 }) {
-	const rat = (x: Score) => calcRating(x.music.levels[x.level].rating, x.acc);
+	const rat = (x: Score) => calcRating(x.music.diffs[x.diff].rating, x.acc);
 	const b35sum = () => p.best50.b35.reduce((x, y) => x + rat(y), 0);
 	const b15sum = () => p.best50.b15.reduce((x, y) => x + rat(y), 0);
 
@@ -27,7 +27,7 @@ function Composition(p: { scores: Score[]; class?: string }) {
 	const comp = createMemo(() => {
 		const m = new Map<number, number>();
 		p.scores.forEach((x) => {
-			const r = calcRating(x.music.levels[x.level].rating, x.acc);
+			const r = calcRating(x.music.diffs[x.diff].rating, x.acc);
 			m.set(r, (m.get(r) ?? 0) + 1);
 		});
 		return [...m].sort((a, b) => b[0] - a[0]);

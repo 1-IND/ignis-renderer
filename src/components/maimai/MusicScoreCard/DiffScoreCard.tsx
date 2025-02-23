@@ -3,10 +3,10 @@ import type { JSX } from 'solid-js';
 import { Show } from 'solid-js';
 
 import Badge, { dxs, toDXStar } from '../Badge';
-import type { LevelData, Score } from '../def';
-import { calcRating, Level, lvlData } from '../def';
+import type { DiffData, Score } from '../def';
+import { calcRating, Diff, diffData } from '../def';
 
-export function DiffScoreCard(p: { chart?: LevelData; diff: Level; score?: Omit<Score, 'music'> }) {
+export function DiffScoreCard(p: { chart?: DiffData; diff: Diff; score?: Omit<Score, 'music'> }) {
 	const centerClass = 'flex items-center justify-center';
 	const gridClass = 'w-full h-full rounded-10px flex items-center justify-center';
 	const d = () => {
@@ -20,7 +20,7 @@ export function DiffScoreCard(p: { chart?: LevelData; diff: Level; score?: Omit<
 		return { dxsMax, dxAcc, dxStar, dxsBorder };
 	};
 	const present = () => !!(p.score && p.chart);
-	const style = () => lvlData[p.diff];
+	const style = () => diffData[p.diff];
 	const SmallBox = (_p: { class?: string; children?: JSX.Element }) => (
 		<div class={clsx(centerClass, _p.class)}>
 			<div class={clsx(gridClass, style().bgBadges)}>
@@ -38,7 +38,7 @@ export function DiffScoreCard(p: { chart?: LevelData; diff: Level; score?: Omit<
 						<div class='font-size-5 font-text'>{style().name}</div>
 						<div class='font-size-4.4 font-digit'>
 							<Show when={p.chart} fallback='&emsp;'>
-								{p.diff === Level.UTG ? `${p.chart!.diff.name}?` : p.chart!.rating.toFixed(1)}
+								{p.diff === Diff.UTG ? `${p.chart!.level.name}?` : p.chart!.rating.toFixed(1)}
 							</Show>
 						</div>
 					</div>
@@ -49,7 +49,7 @@ export function DiffScoreCard(p: { chart?: LevelData; diff: Level; score?: Omit<
 							{`${(p.score!.acc / 10000).toFixed(4)}%`}
 						</SmallBox>
 						<SmallBox class='w-16 font-size-6.5'>
-							{p.diff === Level.UTG ? '-' : calcRating(p.chart!.rating, p.score!.acc)}
+							{p.diff === Diff.UTG ? '-' : calcRating(p.chart!.rating, p.score!.acc)}
 						</SmallBox>
 						<SmallBox class='w-44'>
 							<div class='flex flex-col'>

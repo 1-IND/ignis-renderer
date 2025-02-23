@@ -5,11 +5,11 @@ import type { Context, FilteredChart } from '~/routes/maimai/range';
 
 import { isGoalAchieved, PlayCardA } from './PlayCardA';
 
-export function Range(props: { ctx: Context }) {
+export function Range(p: { ctx: Context }) {
 	const chartMap = createMemo(() => {
 		const map = new Map<number, FilteredChart[]>();
-		if (!props.ctx.charts) return map;
-		for (const chart of props.ctx.charts) {
+		if (!p.ctx.charts) return map;
+		for (const chart of p.ctx.charts) {
 			const key = chart.rating;
 			if (!map.has(key)) map.set(key, []);
 			map.get(key)!.push(chart);
@@ -28,8 +28,7 @@ export function Range(props: { ctx: Context }) {
 					?.sort((a, b) => b[0] - a[0])}
 				>
 					{([rating, charts]) => {
-						// eslint-disable-next-line solid/reactivity
-						const achievedCount = charts.reduce((x, y) => x + Number(isGoalAchieved(props.ctx.filter?.main, y)), 0);
+						const achievedCount = charts.reduce((x, y) => x + Number(isGoalAchieved(p.ctx.filter?.main, y)), 0);
 
 						return (
 							<div class='flex gap-4'>
@@ -40,7 +39,7 @@ export function Range(props: { ctx: Context }) {
 									)}
 									>
 										<span class='text-3xl text-white font-digit'>{rating.toFixed(1)}</span>
-										<Show when={props.ctx.filter?.main}>
+										<Show when={p.ctx.filter?.main}>
 											<span class='text-xl text-white font-digit'>{`${achievedCount} / ${charts.length}`}</span>
 										</Show>
 										{/* TODO: stats */}
@@ -49,7 +48,7 @@ export function Range(props: { ctx: Context }) {
 								<div class='grid grid-cols-12 flex-1 gap-4'>
 									<For each={charts}>
 										{chart => (
-											<PlayCardA class='aspect-ratio-square' chart={chart} goal={props.ctx.filter?.main} />
+											<PlayCardA class='aspect-ratio-square' chart={chart} goal={p.ctx.filter?.main} />
 										)}
 									</For>
 								</div>
