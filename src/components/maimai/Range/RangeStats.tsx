@@ -4,11 +4,11 @@ import { createMemo, For } from 'solid-js';
 
 import Badge, { toDXStar } from '~/components/maimai/Badge';
 import { ComboType, RankType, SyncType } from '~/components/maimai/def';
-import type { AnyF, FilteredChart } from '~/routes/maimai/range';
+import type { AnyScoreF, FilteredChart } from '~/routes/maimai/range';
 
 import { isGoalAchieved } from './PlayCardA';
 
-export function RangeStats(p: { charts: FilteredChart[]; goal?: AnyF }) {
+export function RangeStats(p: { charts: FilteredChart[]; goal?: AnyScoreF }) {
 	const stats = createMemo(() => {
 		const rankMap = new Map<RankType, number>([[RankType.SSSp, 0]]);
 		const comboMap = new Map<ComboType, number>([[ComboType.APp, 0]]);

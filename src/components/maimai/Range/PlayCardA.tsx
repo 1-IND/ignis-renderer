@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { Match, Show, Switch } from 'solid-js';
 
-import type { AnyF, FilteredChart } from '~/routes/maimai/range';
+import type { AnyScoreF, FilteredChart } from '~/routes/maimai/range';
 
 import Badge, { toDXStar } from '../Badge';
 import { Diff } from '../def';
@@ -12,13 +12,7 @@ export function bgDimmed(url: string, alpha: number) {
 		'background-size': 'cover',
 	};
 }
-function check<T>(m: T[], v: T) {
-	if (m.length === 0) return true;
-	if (m.length === 1) return m[0] <= v;
-	if (m.length === 2) return m[0] <= v && v <= m[1];
-	return m.includes(v);
-}
-export function PlayCardA(p: { chart: FilteredChart; goal?: AnyF; class?: string }) {
+export function PlayCardA(p: { chart: FilteredChart; goal?: AnyScoreF; class?: string }) {
 	const achieved = () => isGoalAchieved(p.goal, p.chart);
 	const acc = () => p.chart.score ? p.chart.score.dxs / (p.chart.notes.total * 3) : -1;
 
@@ -65,16 +59,15 @@ export function PlayCardA(p: { chart: FilteredChart; goal?: AnyF; class?: string
 		</div>
 	);
 }
-export function isGoalAchieved(goal: AnyF | undefined, chart: FilteredChart) {
-	let achieved = false;
+export function isGoalAchieved(goal: AnyScoreF | undefined, chart: FilteredChart) {
 	if (goal && chart.score) {
-		if (goal.type === 'rank') achieved = check(goal.value, chart.score.rank);
-		if (goal.type === 'combo') achieved = check(goal.value, chart.score.combo);
-		if (goal.type === 'sync') achieved = check(goal.value, chart.score.sync);
+		if (goal.type === 'rank') return chart.score.rank >= goal.value;
+		if (goal.type === 'combo') return chart.score.combo >= goal.value;
+		if (goal.type === 'sync') return chart.score.sync >= goal.value;
 		if (goal.type === 'star') {
 			const star = toDXStar(chart.score.dxs / (chart.notes.total * 3));
-			achieved = check(goal.value, star);
+			return star >= goal.value;
 		}
 	}
-	return achieved;
+	return false;
 }

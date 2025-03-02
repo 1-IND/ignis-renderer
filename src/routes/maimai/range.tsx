@@ -9,24 +9,39 @@ import { Range } from '~/components/maimai/Range';
 import { FilterDisplay } from '~/components/maimai/Range/FilterDisplay';
 import { RangeStats } from '~/components/maimai/Range/RangeStats';
 
-export interface RankF { type: 'rank'; value: RankType[] }
-export interface ComboF { type: 'combo'; value: ComboType[] }
-export interface SyncF { type: 'sync'; value: SyncType[] }
-export interface StarF { type: 'star'; value: number[] }
-export type AnyF = RankF | ComboF | SyncF | StarF;
+export type AnyScoreF =
+	| { type: 'rank'; value: RankType }
+	| { type: 'combo'; value: ComboType }
+	| { type: 'sync'; value: SyncType }
+	| { type: 'star'; value: number };
 
 export interface Filter {
+	// Chart filters
 	diff: Diff[];
 	level: string[];
 	rating: number[];
 	version: string[];
 
-	main?: AnyF;
+	// Score filters
+	main?: AnyScoreF;
 	prelim?: {
 		rank: RankType[];
 		combo: ComboType[];
 		sync: SyncType[];
 		star: number[];
+	};
+
+	// Exclusive filters
+	utage?: { kanji: string[]; dp: boolean[] };
+	plate?: { version: number[]; cond: AnyScoreF };
+
+	// States
+	state: {
+		真?: boolean;
+		舞?: boolean;
+		versionCnt?: number;
+
+		info: Set<string>;
 	};
 }
 export type FilteredChart = MusicData['diffs'][number] & { diff: Diff; score?: Score; music: MusicData };
