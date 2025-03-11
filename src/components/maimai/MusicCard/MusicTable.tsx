@@ -50,15 +50,21 @@ export function MusicTable(p: { music: MusicData; class?: string }) {
 			</thead>
 			<tbody>
 				<Show when={!p.music.utage}>
-					<For each={[Diff.BAS, Diff.ADV, Diff.EXP, Diff.MAS, Diff.REM]}>{lvl => <DiffRow diff={lvl} data={p.music.diffs[lvl]} />}</For>
+					<For each={[Diff.BAS, Diff.ADV, Diff.EXP, Diff.MAS, Diff.REM]}>
+						{lvl => (
+							<Show when={p.music.diffs[lvl]}>
+								<DiffRow diff={lvl} data={p.music.diffs[lvl]!} />
+							</Show>
+						)}
+					</For>
 				</Show>
 				<Show when={p.music.utage?.dp === false}>
-					<DiffRow diff={Diff.UTG} data={p.music.diffs[0]} />
+					<DiffRow diff={Diff.UTG} data={p.music.diffs[0]!} />
 				</Show>
 				<Show when={p.music.utage?.dp === true}>
-					<DiffRow diff={Diff.UTG} diffName='[LEFT]' noDelta data={p.music.diffs[0]} />
-					<DiffRow diff={Diff.UTG} diffName='[RIGHT]' noDelta data={p.music.diffs[1]} />
-					<DiffRow diff={Diff.UTG_TOTAL} diffName='[TOTAL]' data={sumDiffs(p.music.diffs[0], p.music.diffs[1])} />
+					<DiffRow diff={Diff.UTG} diffName='[LEFT]' noDelta data={p.music.diffs[0]!} />
+					<DiffRow diff={Diff.UTG} diffName='[RIGHT]' noDelta data={p.music.diffs[1]!} />
+					<DiffRow diff={Diff.UTG_TOTAL} diffName='[TOTAL]' data={sumDiffs(p.music.diffs[0]!, p.music.diffs[1]!)} />
 				</Show>
 			</tbody>
 		</table>

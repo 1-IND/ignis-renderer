@@ -9,6 +9,10 @@ export function RatingTable(p: { music: MusicData; class?: string }) {
 	const style = () => !p.music.utage
 		? { tableW: 'w-100%', lvlW: 'w-11%', dxsW: 'w-8%' }
 		: { tableW: 'w-50%', lvlW: 'w-22%', dxsW: 'w-15.6%' };
+	const displayDiffs = () => {
+		const diffs = [Diff.EXP, Diff.MAS, Diff.REM].filter(x => p.music.diffs[x]);
+		return diffs.length ? diffs : [Diff.BAS, Diff.ADV].filter(x => p.music.diffs[x]);
+	};
 
 	return (
 		<table class={clsx('border-collapse rounded-lg overflow-hidden font-digit border-hidden', p.class, style().tableW)}>
@@ -41,15 +45,19 @@ export function RatingTable(p: { music: MusicData; class?: string }) {
 			</thead>
 			<tbody>
 				<Show when={!p.music.utage}>
-					<For each={[2, 3, 4]}>
-						{lvl => <RatingRow level={lvl} rating={p.music.diffs[lvl]?.rating} notes={p.music.diffs[lvl]?.notes?.total} />}
+					<For each={displayDiffs()}>
+						{lvl => (
+							<Show when={p.music.diffs[lvl]}>
+								<RatingRow level={lvl} rating={p.music.diffs[lvl]?.rating} notes={p.music.diffs[lvl]?.notes?.total} />
+							</Show>
+						)}
 					</For>
 				</Show>
 				<Show when={p.music.utage?.dp === false}>
-					<RatingRow level={Diff.UTG} notes={p.music.diffs[0].notes.total} />
+					<RatingRow level={Diff.UTG} notes={p.music.diffs[0]!.notes.total} />
 				</Show>
 				<Show when={p.music.utage?.dp === true}>
-					<RatingRow level={Diff.UTG_TOTAL} lvlName='[TOTAL]' notes={p.music.diffs[0].notes.total + p.music.diffs[1].notes.total} />
+					<RatingRow level={Diff.UTG_TOTAL} lvlName='[TOTAL]' notes={p.music.diffs[0]!.notes.total + p.music.diffs[1]!.notes.total} />
 				</Show>
 			</tbody>
 		</table>

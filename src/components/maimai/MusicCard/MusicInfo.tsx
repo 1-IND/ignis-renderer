@@ -1,11 +1,18 @@
 import clsx from 'clsx';
-import { Show } from 'solid-js';
+import { For, Show } from 'solid-js';
 
 import Badge from '../Badge';
-import { Diff } from '../def';
+import { Diff, diffData } from '../def';
 import type { MusicData } from '../def';
 
+const colors = ['text-green-5', 'text-yellow-5', 'text-red-5', 'text-purple-7', 'text-gray-7'] as const;
+
 export function MusicInfo(p: { music: MusicData; class?: string }) {
+	const displayDiffs = () => {
+		const diffs = ([Diff.EXP, Diff.MAS, Diff.REM] as const).filter(x => p.music.diffs[x]);
+		return diffs.length ? diffs : ([Diff.BAS, Diff.ADV] as const).filter(x => p.music.diffs[x]);
+	};
+
 	return (
 		<div class={clsx('flex', p.class)}>
 			<div class='relative mr-4'>
@@ -31,14 +38,18 @@ export function MusicInfo(p: { music: MusicData; class?: string }) {
 					<div class='mr-2'>Charter:</div>
 					<div class='min-w-0'>
 						<Show when={!p.music.utage}>
-							<div class='truncate text-red-5'>{`[Expert] ${p.music.diffs[Diff.EXP].charter}`}</div>
-							<div class='truncate text-purple-7'>{`[Master] ${p.music.diffs[Diff.MAS].charter}`}</div>
-							<Show when={p.music.diffs[Diff.REM]}>
-								<div class='truncate text-gray-7'>{`[Re:MASTER] ${p.music.diffs[Diff.REM].charter}`}</div>
-							</Show>
+							<For each={displayDiffs()}>
+								{
+									d => (
+										<Show when={p.music.diffs[d]}>
+											<div class={clsx('truncate', colors[d])}>{`[${diffData[d].name}] ${p.music.diffs[d]!.charter || '-'}`}</div>
+										</Show>
+									)
+								}
+							</For>
 						</Show>
 						<Show when={p.music.utage}>
-							<div class='truncate text-pink-4'>{`[U·TA·GE] ${p.music.diffs[0].charter || '-'}`}</div>
+							<div class='truncate text-pink-4'>{`[U·TA·GE] ${p.music.diffs[0]!.charter || '-'}`}</div>
 						</Show>
 					</div>
 				</div>
