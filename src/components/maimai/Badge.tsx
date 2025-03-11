@@ -32,7 +32,7 @@ export default {
 	RankL: (p: { type: RankType; class?: string }) => <img class={p.class} src={toAssetPath(rankBadgeL(p.type))} />,
 	DXStar,
 	DXS: (p: { acc: number; class?: string }) => <DXStar class={p.class} type={toDXStar(p.acc)} />,
-	SongType: (p: { type: MusicType; utage?: UtageData; class?: string }) => {
+	SongType: (p: { type: MusicType; utage: UtageData | null; class?: string }) => {
 		return (
 			<Switch>
 				<Match when={p.type === 'STD'}><img class={p.class} src={toAssetPath('common/infoicon/UI_MSS_Infoicon_StandardMode')} /></Match>

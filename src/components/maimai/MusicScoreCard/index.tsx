@@ -18,14 +18,18 @@ export function MusicScoreCard(p: { music: MusicData; scores: ScoreType[]; class
 				<div class='mt-8'>
 					<Show when={!p.music.utage}>
 						<For each={[Diff.BAS, Diff.ADV, Diff.EXP, Diff.MAS, Diff.REM]}>
-							{id => <DiffScoreCard chart={p.music.diffs[id]} diff={id} score={diffMap().get(id)} />}
+							{id => (
+								<Show when={p.music.diffs[id]}>
+									<DiffScoreCard chart={p.music.diffs[id]!} diff={id} score={diffMap().get(id)} />
+								</Show>
+							)}
 						</For>
 					</Show>
 					<Show when={p.music.utage?.dp === false}>
-						<DiffScoreCard chart={p.music.diffs[0]} diff={Diff.UTG} score={diffMap().get(0)} />
+						<DiffScoreCard chart={p.music.diffs[0]!} diff={Diff.UTG} score={diffMap().get(Diff.UTG)} />
 					</Show>
 					<Show when={p.music.utage?.dp === true}>
-						<DiffScoreCard chart={sumDiffs(p.music.diffs[0], p.music.diffs[1])} diff={Diff.UTG} score={diffMap().get(0)} />
+						<DiffScoreCard chart={sumDiffs(p.music.diffs[0]!, p.music.diffs[1]!)} diff={Diff.UTG} score={diffMap().get(Diff.UTG)} />
 					</Show>
 				</div>
 			</div>
