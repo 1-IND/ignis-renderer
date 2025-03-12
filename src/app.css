@@ -2,20 +2,24 @@
 	font-family: 'SourceHanSansCN';
 	src: url('fonts/SourceHanSansCN-Bold.otf') format('opentype');
 	font-weight: bold;
+	font-display: swap;
 }
 
 @font-face {
 	font-family: 'Segoe UI Emoji';
 	src: url('fonts/seguiemj.ttf') format('truetype');
+	font-display: swap;
 }
 
 @font-face {
 	font-family: 'Torus';
 	src: url('fonts/Torus-Regular.otf') format('opentype');
+	font-display: swap;
 }
 
 @font-face {
 	font-family: 'Torus';
 	src: url('fonts/Torus-SemiBold.otf') format('opentype');
 	font-weight: 600;
+	font-display: swap;
 }

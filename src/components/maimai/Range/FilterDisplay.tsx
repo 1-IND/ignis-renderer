@@ -14,7 +14,7 @@ export function FilterDisplay(p: { filter: Filter }) {
 	return (
 		<div class='rounded-xl bg-white/80 px-2 py-1 text-lg font-digit'>
 			<div>Chart Filter:</div>
-			<Show when={hasChartFilter()} fallback={<div>No filter applied.</div>}>
+			<Show when={hasChartFilter()} fallback={<div>No filters applied.</div>}>
 				<ul class='list-disc-inside [&_li]:line-height-none'>
 					<Show when={p.filter.diff.length > 0}><li>{`Difficulty: ${fmt(p.filter.diff)}`}</li></Show>
 					<Show when={p.filter.level.length > 0}><li>{`Level: ${fmt(p.filter.level)}`}</li></Show>
@@ -24,7 +24,7 @@ export function FilterDisplay(p: { filter: Filter }) {
 			</Show>
 
 			<div class='mt-2'>Score Filter:</div>
-			<Show when={p.filter.prelim} fallback={<div>No filter applied.</div>}>
+			<Show when={p.filter.prelim} fallback={<div>No filters applied.</div>}>
 				<ul class='list-disc-inside [&_li]:line-height-none'>
 					<Show when={p.filter.prelim!.rank.length > 0}><li>{`Rank: ${fmt(p.filter.prelim!.rank.map(x => rankNames[x]))}`}</li></Show>
 					<Show when={p.filter.prelim!.combo.length > 0}><li>{`Combo: ${fmt(p.filter.prelim!.combo.map(x => comboNames[x]))}`}</li></Show>
