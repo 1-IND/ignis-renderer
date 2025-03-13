@@ -1,6 +1,6 @@
 import { Show } from 'solid-js';
 
-import type { Filter } from '~/routes/maimai/range';
+import type { Filter } from '~/routes/maimai/vs';
 
 const fmt = <T extends number | string>(t: T[]) => t.length === 2 ? `${t[0]} ~ ${t[1]}` : t.join(', ');
 

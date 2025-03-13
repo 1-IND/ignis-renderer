@@ -73,12 +73,14 @@ function Mask(p: { chart: FilteredChart }) {
 }
 export function isGoalAchieved(goal: AnyScoreF | undefined, chart: FilteredChart) {
 	if (goal && chart.score) {
-		if (goal.type === 'rank') return chart.score.rank >= goal.value;
-		if (goal.type === 'combo') return chart.score.combo >= goal.value;
-		if (goal.type === 'sync') return chart.score.sync >= goal.value;
-		if (goal.type === 'star') {
-			const star = toDXStar(chart.score.dxs / (chart.notes.total * 3));
-			return star >= goal.value;
+		switch (goal.type) {
+			case 'rank': return chart.score.rank >= goal.value;
+			case 'combo': return chart.score.combo >= goal.value;
+			case 'sync': return chart.score.sync >= goal.value;
+			case 'star': {
+				const star = toDXStar(chart.score.dxs / (chart.notes.total * 3));
+				return star >= goal.value;
+			}
 		}
 	}
 	return false;
