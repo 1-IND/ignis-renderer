@@ -1,76 +1,15 @@
 import clsx from 'clsx';
-import { createMemo, For, Show } from 'solid-js';
+import { For, Show } from 'solid-js';
 
-import type { AnyScoreF, Context, FilteredChart } from '~/routes/maimai/vs';
+import type { ChartMap, Context, FilteredChart, Verdict } from '~/routes/maimai/vs';
 
-import { toDXStar } from '../Badge';
-import type { Score } from '../def';
 import { PlayCardA } from '../Range/PlayCardA';
 import { PlayCardB } from './PlayCardB';
 
-function isGoalAchieved(goal: AnyScoreF, score: Score | undefined, dxScore: true | undefined, totalNotes: number) {
-	if (!score) return false;
-	switch (goal.type) {
-		case 'rank': return score.rank >= goal.value;
-		case 'combo': return score.combo >= goal.value;
-		case 'sync': return score.sync >= goal.value;
-		case 'star': return toDXStar(score.dxs / (totalNotes * 3)) >= goal.value;
-		case 'ratio': {
-			if (dxScore) return score.dxs / (totalNotes * 3) >= goal.value;
-			return score.acc >= goal.value;
-		}
-	}
-}
-
-export function VS(p: { ctx: Context }) {
-	type Verdict = 'win' | 'draw' | 'lose' | 'notPlayed' | 'onlyA' | 'onlyB';
-	const chartMap = createMemo(() => {
-		const chartMap: Record<Verdict, (FilteredChart & { delta?: number })[]> = {
-			win: [],
-			draw: [],
-			lose: [],
-			notPlayed: [],
-			onlyA: [],
-			onlyB: [],
-		};
-		if (!p.ctx.charts) return chartMap;
-
-		const charts = [...p.ctx.charts];
-		const goal = p.ctx.filter?.main;
-		const dxScore = p.ctx.filter?.dxScore;
-		charts.sort((x, y) => {
-			if (x.rating !== y.rating) return y.rating - x.rating;
-			return x.music.id - y.music.id;
-		});
-
-		for (const chart of charts) {
-			if (goal) {
-				const A = isGoalAchieved(goal, chart.scoreA, dxScore, chart.notes.total);
-				const B = isGoalAchieved(goal, chart.scoreB, dxScore, chart.notes.total);
-				const key = A ? (B ? 'draw' : 'win') : B ? 'lose' : 'notPlayed';
-				chartMap[key].push(chart);
-			} else {
-				const scoreA = chart.scoreA?.[dxScore ? 'dxs' : 'acc'] ?? 0;
-				const scoreB = chart.scoreB?.[dxScore ? 'dxs' : 'acc'] ?? 0;
-
-				let key: Verdict = scoreA > scoreB ? 'win' : scoreA < scoreB ? 'lose' : 'draw';
-				if (!chart.scoreA && !chart.scoreB) key = 'notPlayed';
-				if (!chart.scoreA && scoreB > 0) key = 'onlyB';
-				if (!chart.scoreB && scoreA > 0) key = 'onlyA';
-
-				chartMap[key].push({ ...chart, delta: scoreA - scoreB });
-			}
-		}
-		if (!goal) {
-			chartMap.win.sort((x, y) => y.delta! - x.delta!);
-			chartMap.lose.sort((x, y) => y.delta! - x.delta!);
-		}
-
-		return chartMap;
-	});
+export function VS(p: { chartMap: ChartMap; ctx: Context }) {
 	const goal = () => p.ctx.filter?.main;
 	const props = (key: Verdict) => ({
-		charts: chartMap()[key],
+		charts: p.chartMap[key],
 		goal: !!goal(),
 		dxScore: p.ctx.filter?.dxScore,
 	});
@@ -88,7 +27,7 @@ export function VS(p: { ctx: Context }) {
 	);
 }
 
-function ScoreCategory(p: { name: string; sub?: string; subSize?: string; color: string; charts: FilteredChart[]; goal: boolean; dxScore?: true }) {
+function ScoreCategory(p: { name: string; sub?: string; subSize?: string; color: string; charts: FilteredChart[]; goal: boolean; dxScore?: boolean }) {
 	return (
 		<Show when={p.charts.length}>
 			<div class='flex gap-4'>

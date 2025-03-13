@@ -1,6 +1,6 @@
 import { Show } from 'solid-js';
 
-import type { Filter } from '~/routes/maimai/vs';
+import type { AnyScoreF, Filter } from '~/routes/maimai/vs';
 
 const fmt = <T extends number | string>(t: T[]) => t.length === 2 ? `${t[0]} ~ ${t[1]}` : t.join(', ');
 
@@ -30,12 +30,22 @@ export function FilterDisplay(p: { filter: Filter }) {
 					<Show when={p.filter.prelim!.combo.length > 0}><li>{`Combo: ${fmt(p.filter.prelim!.combo.map(x => comboNames[x]))}`}</li></Show>
 					<Show when={p.filter.prelim!.sync.length > 0}><li>{`Sync: ${fmt(p.filter.prelim!.sync.map(x => syncNames[x]))}`}</li></Show>
 					<Show when={p.filter.prelim!.star.length > 0}><li>{`DX Star: ${fmt(p.filter.prelim!.star)}`}</li></Show>
+					<Show when={p.filter.prelim!.ratio.length > 0}><li>{`${p.filter.dxScore ? 'DX Score%' : 'Achv.:'}: ${fmt(p.filter.prelim!.ratio.map(x => p.filter.dxScore ? `${x}%` : `${x.toFixed(4)}%`))}`}</li></Show>
 				</ul>
 			</Show>
 
-			{/* <Show when={p.filter.main}>
-				<div class='mt-2'>{`Goal: ${p.filter.main.}`}</div>
-			</Show> */}
+			<Show when={p.filter.main}>
+				<div class='mt-2'>{`Goal: ${fmtGoal(p.filter.main!, p.filter.dxScore)}`}</div>
+			</Show>
 		</div>
 	);
+}
+function fmtGoal(main: AnyScoreF, dxs?: boolean) {
+	switch (main.type) {
+		case 'rank': return rankNames[main.value];
+		case 'combo': return comboNames[main.value];
+		case 'sync': return syncNames[main.value];
+		case 'star': return `⭐${main.value}`;
+		case 'ratio': return `${dxs ? '(DX Score) ' : '(Achv.) '}${main.value}%`;
+	}
 }

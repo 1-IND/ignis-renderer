@@ -12,7 +12,7 @@ export function bgDimmed(url: string, alpha: number) {
 		'background-size': 'cover',
 	};
 }
-export function PlayCardB(p: { chart: FilteredChart & { delta?: number }; goal?: AnyScoreF; class?: string; dxScore?: true }) {
+export function PlayCardB(p: { chart: FilteredChart & { delta?: number }; goal?: AnyScoreF; class?: string; dxScore?: boolean }) {
 	const acc = () => p.chart.scoreA?.acc;
 	const dxs = () => p.chart.scoreA?.dxs;
 	const dxsAcc = () => dxs() != null ? (dxs()!) / (3 * p.chart.notes.total) : 0;
