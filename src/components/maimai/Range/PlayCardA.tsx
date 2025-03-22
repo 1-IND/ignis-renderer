@@ -76,7 +76,10 @@ export function isGoalAchieved(goal: AnyScoreF | undefined, chart: FilteredChart
 		switch (goal.type) {
 			case 'rank': return chart.score.rank >= goal.value;
 			case 'combo': return chart.score.combo >= goal.value;
-			case 'sync': return chart.score.sync >= goal.value;
+			case 'sync': {
+				if (goal.value === 5) return chart.score.sync >= 1;
+				return chart.score.sync >= goal.value && chart.score.sync <= 4;
+			}
 			case 'star': {
 				const star = toDXStar(chart.score.dxs / (chart.notes.total * 3));
 				return star >= goal.value;
