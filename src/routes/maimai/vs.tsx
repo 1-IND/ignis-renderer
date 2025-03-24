@@ -38,6 +38,7 @@ export interface Filter {
 export type FilteredChart = MusicData['diffs'][number] & { diff: Diff; scoreA?: Score; scoreB?: Score; music: MusicData };
 export interface Context {
 	user?: User;
+	userB?: User;
 	filter?: Filter;
 	charts?: FilteredChart[]; // acc === -1 means no score
 }
@@ -92,11 +93,12 @@ export default function Main() {
 	});
 
 	return (
-		<Show when={ctx.user && ctx.filter && ctx.charts}>
+		<Show when={ctx.user && ctx.userB && ctx.filter && ctx.charts}>
 			<Background class='w-400'>
 				<div class='m-8'>
 					<Frame class='flex flex-col items-start gap-4 p-4' user={ctx.user!}>
 						<NamePlate user={ctx.user!} />
+						<NamePlate user={ctx.userB!} />
 						<div class='mt-auto flex items-end gap-4'>
 							<VSStats charts={ctx.charts!} chartMap={chartMap()} goal={ctx.filter?.main} />
 							<FilterDisplay filter={ctx.filter!} />
