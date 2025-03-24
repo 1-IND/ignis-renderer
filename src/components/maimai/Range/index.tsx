@@ -16,12 +16,13 @@ export function Range(p: { ctx: Context }) {
 		}
 		return map;
 	});
+	const rows = createMemo(() => [...chartMap().values()].reduce((x, y) => x + Math.ceil(y.length / 12), 0));
 
 	return (
 		<div class='m-8 flex flex-col gap-4'>
 			<Show
-				when={[...chartMap().values()].reduce((x, y) => x + Math.ceil(y.length / 12), 0) <= 45}
-				fallback='Too many rows'
+				when={rows() <= 45}
+				fallback={`Too many rows: ${rows()} > 45`}
 			>
 				<For each={Array
 					.from(chartMap())

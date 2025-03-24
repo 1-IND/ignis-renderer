@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { For, Show } from 'solid-js';
+import { createMemo, For, Show } from 'solid-js';
 
 import type { ChartMap, Context, FilteredChart, Verdict } from '~/routes/maimai/vs';
 
@@ -13,17 +13,20 @@ export function VS(p: { chartMap: ChartMap; ctx: Context }) {
 		goal: !!goal(),
 		dxScore: p.ctx.filter?.dxScore,
 	});
+	const rows = createMemo(() => Object.values(p.chartMap).reduce((x, y) => Math.ceil(y.length / 12) + x, 0));
 
 	return (
-		<div class='m-8 flex flex-col gap-4'>
-			<ScoreCategory name='WIN' color='bg-pink-5/70' {...props('win')} />
-			<ScoreCategory name='DRAW' sub={goal() && '(BOTH)'} color='bg-green-5/70' {...props('draw')} />
-			<ScoreCategory name='LOSE' color='bg-blue-5/70' {...props('lose')} />
+		<Show when={rows() <= 45} fallback={`Too many rows: ${rows()} > 45`}>
+			<div class='m-8 flex flex-col gap-4'>
+				<ScoreCategory name='WIN' color='bg-pink-5/70' {...props('win')} />
+				<ScoreCategory name='DRAW' sub={goal() && '(BOTH)'} color='bg-green-5/70' {...props('draw')} />
+				<ScoreCategory name='LOSE' color='bg-blue-5/70' {...props('lose')} />
 
-			<ScoreCategory name='WIN' sub='(NOT PLAYED)' subSize='' color='bg-pink-5/50' {...props('onlyA')} />
-			<ScoreCategory name='DRAW' sub='(NEITHER)' color='bg-gray-5/50' {...props('notPlayed')} />
-			<ScoreCategory name='LOSE' sub='(NOT PLAYED)' subSize='' color='bg-blue-5/50' {...props('onlyB')} />
-		</div>
+				<ScoreCategory name='WIN' sub='(NOT PLAYED)' subSize='' color='bg-pink-5/50' {...props('onlyA')} />
+				<ScoreCategory name='DRAW' sub='(NEITHER)' color='bg-gray-5/50' {...props('notPlayed')} />
+				<ScoreCategory name='LOSE' sub='(NOT PLAYED)' subSize='' color='bg-blue-5/50' {...props('onlyB')} />
+			</div>
+		</Show>
 	);
 }
 
