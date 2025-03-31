@@ -120,7 +120,10 @@ function isGoalAchieved(goal: AnyScoreF, score: Score | undefined, dxScore: bool
 	switch (goal.type) {
 		case 'rank': return score.rank >= goal.value;
 		case 'combo': return score.combo >= goal.value;
-		case 'sync': return score.sync >= goal.value;
+		case 'sync': {
+			if (goal.value === 5) return score.sync >= 1;
+			return score.sync >= goal.value && score.sync <= 4;
+		}
 		case 'star': return toDXStar(score.dxs / (totalNotes * 3)) >= goal.value;
 		case 'ratio': {
 			if (dxScore) return score.dxs / (totalNotes * 3) >= goal.value;
