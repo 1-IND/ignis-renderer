@@ -16,6 +16,7 @@ export interface MusicData {
 	bpm: number;
 	diffs: (DiffData | null)[];
 	utage: UtageData | null;
+	duration?: number;
 
 	jacketImg: string;
 	versionImg: string;

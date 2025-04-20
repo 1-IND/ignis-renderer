@@ -7,6 +7,11 @@ import type { MusicData } from '../def';
 
 const colors = ['text-green-5', 'text-yellow-5', 'text-red-5', 'text-purple-7', 'text-gray-7'] as const;
 
+function fmtLength(s: number) {
+	const min = Math.floor(s / 60);
+	const sec = s % 60;
+	return `${min}:${sec.toString().padStart(2, '0')}`;
+}
 export function MusicInfo(p: { music: MusicData; class?: string }) {
 	const displayDiffs = () => {
 		const diffs = ([Diff.EXP, Diff.MAS, Diff.REM] as const).filter(x => p.music.diffs[x]);
@@ -27,11 +32,26 @@ export function MusicInfo(p: { music: MusicData; class?: string }) {
 					<div class='truncate pt-1 text-xl'>{p.music.artist}</div>
 				</div>
 
-				<div class='w-90% flex justify-between font-digit'>
-					<span class='text-xl'>{`ID: ${p.music.id}`}</span>
-					<span class='text-xl'>{`BPM: ${p.music.bpm}`}</span>
-					<span class='text-lg'>{`Version: ${p.music.version.name}`}</span>
-					<span class='text-lg'>{`Genre: ${p.music.genre.name}`}</span>
+				<div class='w-90% flex-col font-digit'>
+					<div class='mb--1 flex justify-between'>
+						<span class='text-xl'>{`ID: ${p.music.id}`}</span>
+						<span class='text-xl'>{`BPM: ${p.music.bpm}`}</span>
+						<Show when={p.music.duration != null}>
+							<span class='text-xl'>
+								{`Duration: ${fmtLength(Math.floor(p.music.duration! / 1e3))}.`}
+								<span class='text-sm'>{(p.music.duration! % 1e3).toString().padStart(3, '0')}</span>
+							</span>
+						</Show>
+						<span class='text-lg'>{`Version: ${p.music.version.name}`}</span>
+						<Show when={p.music.duration == null}>
+							<span class='text-lg'>{`Genre: ${p.music.genre.name}`}</span>
+						</Show>
+					</div>
+					<Show when={p.music.duration != null}>
+						<div class='flex justify-between'>
+							<span class='text-lg'>{`Genre: ${p.music.genre.name}`}</span>
+						</div>
+					</Show>
 				</div>
 
 				<div class='flex items-start'>
