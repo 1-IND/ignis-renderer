@@ -27,9 +27,10 @@ export function VSStats(p: { charts: FilteredChart[]; chartMap: ChartMap; goal?:
 				</div>
 
 				<div class={clsx(
-					'mb-2 h-6 w-full flex rounded-1 [&_:first-child]:rounded-[0.5rem_0_0_0.5rem] [&_:last-child]:rounded-[0_0.5rem_0.5rem_0]',
+					'mb-2 h-6 w-full flex rounded-1 [&_:first-child]:rd-l-[0.5rem] [&_:last-child]:rd-r-[0.5rem]',
 					p.charts.length === 0 && 'bg-gray/50',
-				)}>
+				)}
+				>
 					<Part type='win' class='bg-pink-5/70' />
 					<Part type='onlyA' class='bg-pink/50' />
 					<Part type='draw' class='bg-green-5/70' />
