@@ -36,20 +36,27 @@ export function MusicInfo(p: { music: MusicData; class?: string }) {
 					<div class='mb--1 flex justify-between'>
 						<span class='text-xl'>{`ID: ${p.music.id}`}</span>
 						<span class='text-xl'>{`BPM: ${p.music.bpm}`}</span>
-						<Show when={p.music.duration != null}>
+						<span class='text-lg'>{`Version: ${p.music.version.name}`}</span>
+						<span class='text-lg'>{`Genre: ${p.music.genre.name}`}</span>
+					</div>
+					<Show when={p.music.duration != null}>
+						<div class='flex justify-between'>
 							<span class='text-xl'>
 								{`Duration: ${fmtLength(Math.floor(p.music.duration! / 1e3))}.`}
 								<span class='text-sm'>{(p.music.duration! % 1e3).toString().padStart(3, '0')}</span>
 							</span>
-						</Show>
-						<span class='text-lg'>{`Version: ${p.music.version.name}`}</span>
-						<Show when={p.music.duration == null}>
-							<span class='text-lg'>{`Genre: ${p.music.genre.name}`}</span>
-						</Show>
-					</div>
-					<Show when={p.music.duration != null}>
-						<div class='flex justify-between'>
-							<span class='text-lg'>{`Genre: ${p.music.genre.name}`}</span>
+							{/* <Show when={p.music.preview != null}>
+								<span class='text-xl'>
+									{`Preview: ${fmtLength(Math.floor(p.music.preview![0] / 1e3))}.`}
+									<span class='text-sm'>{(p.music.preview![0] % 1e3).toString().padStart(3, '0')}</span>
+									{` ~ ${fmtLength(Math.floor(p.music.preview![1] / 1e3))}.`}
+									<span class='text-sm'>{(p.music.preview![1] % 1e3).toString().padStart(3, '0')}</span>
+									{` (${Math.floor((p.music.preview![1] - p.music.preview![0]) / 1e3)}.`}
+									<span class='text-sm'>{((p.music.preview![1] - p.music.preview![0]) % 1e3).toString().padStart(3, '0')}</span>
+									<span class='text-lg'>{' sec.'}</span>
+									)
+								</span>
+							</Show> */}
 						</div>
 					</Show>
 				</div>

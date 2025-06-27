@@ -17,6 +17,7 @@ export interface MusicData {
 	diffs: (DiffData | null)[];
 	utage: UtageData | null;
 	duration?: number;
+	preview?: [number, number];
 
 	jacketImg: string;
 	versionImg: string;
