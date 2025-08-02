@@ -14,7 +14,7 @@ export function PlayCard(p: { score: Score }) {
 	const dxAcc100 = () => Math.floor(p.score.dxs * 100 / dxsMax());
 	const dxStar = () => toDXStar(dxAcc100()) + 1;
 	const d = () => {
-		const d = p.score.dxs - Math.ceil((dxs[dxStar() - 1] ?? 1) * dxsMax());
+		const d = p.score.dxs - Math.ceil((dxs[dxStar() - 1] ?? 1) * dxsMax() / 100);
 		return d > 0 ? 'WTF' : d === 0 ? 'MAX' : `${dxStar() === 6 ? 'MAX' : `⭐${dxStar()}`} ${d}`;
 	};
 
