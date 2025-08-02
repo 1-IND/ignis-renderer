@@ -70,8 +70,8 @@ export function DiffScoreCard(p: { chart?: DiffData; diff: Diff; score?: Omit<Sc
 							<Badge.Sync class='h-12 w-auto object-contain' type={p.score!.sync} />
 						</div>
 						<div class='w-16 flex items-center justify-center'>
-							<Show when={d()!.dxStar >= 3} fallback={<Badge.DXStar class='h-6 w-auto object-contain' type={d()!.dxStar} />}>
-								<Badge.DXStar class='h-8 w-auto object-contain' type={d()!.dxStar} />
+							<Show when={d()!.dxAcc >= 0.93} fallback={<Badge.DXS class='h-6 w-auto object-contain' acc={d()!.dxAcc100} />}>
+								<Badge.DXS class='h-8 w-auto object-contain' acc={d()!.dxAcc100} />
 							</Show>
 						</div>
 					</Show>
