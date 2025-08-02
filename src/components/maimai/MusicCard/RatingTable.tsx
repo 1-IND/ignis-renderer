@@ -66,7 +66,7 @@ export function RatingTable(p: { music: MusicData; class?: string }) {
 
 function RatingRow(props: { level: Diff; lvlName?: string; rating?: number; notes?: number }) {
 	const style = () => diffData[props.level];
-	const dxsBorder = (acc: number) => props.notes != null ? `-${Math.floor((3 * props.notes) * (1 - acc))}` : '-';
+	const dxsBorder = (acc: number) => props.notes != null ? `-${Math.floor((3 * props.notes) * (100 - acc) / 100)}` : '-';
 
 	return (
 		<tr class='h-10'>

@@ -15,7 +15,7 @@ export function bgDimmed(url: string, alpha: number) {
 export function PlayCardB(p: { chart: FilteredChart & { delta?: number }; goal?: AnyScoreF; class?: string; dxScore?: boolean }) {
 	const acc = () => p.chart.scoreA?.acc;
 	const dxs = () => p.chart.scoreA?.dxs;
-	const dxsAcc = () => dxs() != null ? (dxs()!) / (3 * p.chart.notes.total) : 0;
+	const dxsAcc100 = () => dxs() != null ? (100 * dxs()!) / (3 * p.chart.notes.total) : 0;
 	const del = () => p.chart.delta!;
 
 	return (
@@ -39,7 +39,7 @@ export function PlayCardB(p: { chart: FilteredChart & { delta?: number }; goal?:
 				<div class='absolute bottom-1 flex flex-col items-center justify-center font-bold font-digit'>
 					<div class='mb--1 flex items-center text-xs text-white'>
 						<Show when={dxs() != null} fallback='-'>
-							<Badge.DXS class={clsx('h-4 object-contain', dxsAcc() < 0.9 ? 'w-3' : 'w-4')} acc={dxsAcc()} />
+							<Badge.DXS class={clsx('h-4 object-contain', dxsAcc100() < 90 ? 'w-3' : 'w-4')} acc={dxsAcc100()} />
 							{`${dxs()!} / ${3 * p.chart.notes.total}`}
 						</Show>
 					</div>

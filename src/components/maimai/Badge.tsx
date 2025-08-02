@@ -9,7 +9,7 @@ export enum ComboType { Blank, FC, FCp, AP, APp }
 export enum SyncType { Blank, FS, FSp, FSD, FSDp, SP }
 export enum RankType { D, C, B, BB, BBB, A, AA, AAA, S, Sp, SS, SSp, SSS, SSSp }
 
-export const dxs = [0.85, 0.90, 0.93, 0.95, 0.97];
+export const dxs = [85, 90, 93, 95, 97];
 export const toDXStar = (acc: number) => dxs.findLastIndex(dx => acc >= dx) + 1;
 
 export const rankBadge = (rank: RankType) => `prism/rank/UI_GAM_Rank_${RankType[rank]}`;

@@ -20,7 +20,7 @@ export function RangeStats(p: { charts: FilteredChart[]; goal?: AnyScoreF }) {
 			rankMap.set(rank, (rankMap.get(rank) ?? 0) + 1);
 			comboMap.set(combo, (comboMap.get(combo) ?? 0) + 1);
 			syncMap.set(sync, (syncMap.get(sync) ?? 0) + 1);
-			const star = toDXStar(dxs / (chart.notes.total * 3));
+			const star = toDXStar(100 * dxs / (chart.notes.total * 3));
 			starMap.set(star, (starMap.get(star) ?? 0) + 1);
 		}
 		for (let i = RankType.SSS; i >= 0; i--)

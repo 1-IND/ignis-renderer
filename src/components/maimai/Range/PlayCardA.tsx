@@ -14,7 +14,7 @@ export function bgDimmed(url: string, alpha: number) {
 }
 export function PlayCardA(p: { chart: FilteredChart; goal?: AnyScoreF; class?: string }) {
 	const achieved = () => isGoalAchieved(p.goal, p.chart);
-	const acc = () => p.chart.score ? p.chart.score.dxs / (p.chart.notes.total * 3) : -1;
+	const acc = () => p.chart.score ? 100 * p.chart.score.dxs / (p.chart.notes.total * 3) : -1;
 
 	return (
 		<div
@@ -49,7 +49,7 @@ function ScoreBadge(p: { chart: FilteredChart; goal?: AnyScoreF; acc: number }) 
 			</Match>
 			<Match when={p.goal?.type === 'star'}>
 				<Show
-					when={p.acc >= 0.93}
+					when={p.acc >= 93}
 					fallback={<Badge.DXS class='h-30% w-full object-contain' acc={p.acc} />}
 				>
 					<Badge.DXS class='h-40% w-full object-contain' acc={p.acc} />
@@ -81,7 +81,7 @@ export function isGoalAchieved(goal: AnyScoreF | undefined, chart: FilteredChart
 				return chart.score.sync >= goal.value && chart.score.sync <= 4;
 			}
 			case 'star': {
-				const star = toDXStar(chart.score.dxs / (chart.notes.total * 3));
+				const star = toDXStar(100 * chart.score.dxs / (chart.notes.total * 3));
 				return star >= goal.value;
 			}
 		}

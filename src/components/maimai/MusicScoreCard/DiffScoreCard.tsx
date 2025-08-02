@@ -13,11 +13,11 @@ export function DiffScoreCard(p: { chart?: DiffData; diff: Diff; score?: Omit<Sc
 		if (!p.score || !p.chart) return null;
 		const dxsMax = 3 * p.chart.notes.total;
 		const score = p.score.dxs;
-		const dxAcc = score / dxsMax;
-		const dxStar = toDXStar(dxAcc) + 1;
+		const dxAcc100 = score * 100 / dxsMax;
+		const dxStar = toDXStar(dxAcc100) + 1;
 		const d = score - Math.ceil((dxs[dxStar - 1] ?? 1) * dxsMax);
 		const dxsBorder = d > 0 ? 'WTF' : d === 0 ? 'MAX' : `${dxStar === 6 ? 'MAX' : `⭐${dxStar}`} ${d}`;
-		return { dxsMax, dxAcc, dxStar, dxsBorder };
+		return { dxsMax, dxAcc100, dxStar, dxsBorder };
 	};
 	const present = () => !!(p.score && p.chart);
 	const style = () => diffData[p.diff];
@@ -54,7 +54,7 @@ export function DiffScoreCard(p: { chart?: DiffData; diff: Diff; score?: Omit<Sc
 						<SmallBox class='w-44'>
 							<div class='flex flex-col'>
 								<div class='font-size-6 leading-6'>{`${p.score!.dxs} / ${d()!.dxsMax}`}</div>
-								<div class='font-size-4 leading-6'>{`${(d()!.dxAcc * 100).toFixed(2)}% (${d()!.dxsBorder})`}</div>
+								<div class='font-size-4 leading-6'>{`${d()!.dxAcc100.toFixed(2)}% (${d()!.dxsBorder})`}</div>
 							</div>
 						</SmallBox>
 						{/* <SmallBox class='w-20 text-lg'>
@@ -70,8 +70,8 @@ export function DiffScoreCard(p: { chart?: DiffData; diff: Diff; score?: Omit<Sc
 							<Badge.Sync class='h-12 w-auto object-contain' type={p.score!.sync} />
 						</div>
 						<div class='w-16 flex items-center justify-center'>
-							<Show when={d()!.dxAcc >= 0.93} fallback={<Badge.DXS class='h-6 w-auto object-contain' acc={d()!.dxAcc} />}>
-								<Badge.DXS class='h-8 w-auto object-contain' acc={d()!.dxAcc} />
+							<Show when={d()!.dxStar >= 3} fallback={<Badge.DXStar class='h-6 w-auto object-contain' type={d()!.dxStar} />}>
+								<Badge.DXStar class='h-8 w-auto object-contain' type={d()!.dxStar} />
 							</Show>
 						</div>
 					</Show>

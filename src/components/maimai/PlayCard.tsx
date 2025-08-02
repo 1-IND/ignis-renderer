@@ -10,8 +10,9 @@ export function PlayCard(p: { score: Score }) {
 	const rating = () => calcRating(chart().rating, p.score.acc);
 
 	const dxsMax = () => 3 * chart().notes.total;
-	const dxAcc = () => p.score.dxs / dxsMax();
-	const dxStar = () => toDXStar(dxAcc()) + 1;
+	const dxAccFloat = () => p.score.dxs / dxsMax();
+	const dxAcc100 = () => Math.floor(p.score.dxs * 100 / dxsMax());
+	const dxStar = () => toDXStar(dxAcc100()) + 1;
 	const d = () => {
 		const d = p.score.dxs - Math.ceil((dxs[dxStar() - 1] ?? 1) * dxsMax());
 		return d > 0 ? 'WTF' : d === 0 ? 'MAX' : `${dxStar() === 6 ? 'MAX' : `⭐${dxStar()}`} ${d}`;
@@ -36,7 +37,7 @@ export function PlayCard(p: { score: Score }) {
 				</div>
 
 				<div class='lh-[0.75rem] font-digit'>
-					<span class='text-xs lh-[0.75rem]'>{`${(dxAcc() * 100).toFixed(2)}%`}</span>
+					<span class='text-xs lh-[0.75rem]'>{`${(dxAccFloat() / 100).toFixed(2)}%`}</span>
 					<span class='text-xs lh-[0.75rem]'>{` - ${p.score.dxs} / ${dxsMax()} `}</span>
 					<span class='text-xs lh-[0.75rem]'>{`(${d()})`}</span>
 				</div>
@@ -45,7 +46,7 @@ export function PlayCard(p: { score: Score }) {
 					<Badge.Rank class='h-6 w-15 object-contain object-left' type={p.score.rank} />
 					<Badge.Combo class='h-6 w-6 object-contain object-left' type={p.score.combo} />
 					<Badge.Sync class='h-6 w-6 object-contain object-left' type={p.score.sync} />
-					<Badge.DXS class='h-6 w-11 object-contain' acc={dxAcc()} />
+					<Badge.DXS class='h-6 w-11 object-contain' acc={dxAcc100()} />
 				</div>
 			</div>
 		</div>
