@@ -14,20 +14,17 @@
 	},
 	"dependencies": {
 		"@solidjs/router": "^0.15.3",
-		"@solidjs/start": "^1.1.1",
-		"@unocss/reset": "66.1.0-beta.3",
+		"@solidjs/start": "^1.1.7",
+		"@unocss/reset": "66.4.2",
 		"clsx": "^2.1.1",
-		"solid-js": "^1.9.5",
-		"unocss": "66.1.0-beta.3",
-		"vinxi": "^0.5.3"
+		"solid-js": "^1.9.9",
+		"unocss": "66.4.2",
+		"vinxi": "^0.5.8"
 	},
 	"devDependencies": {
-		"@antfu/eslint-config": "^4.3.0",
-		"@unocss/eslint-plugin": "66.1.0-beta.3",
-		"eslint": "^9.21.0",
+		"@antfu/eslint-config": "^5.2.1",
+		"@unocss/eslint-plugin": "66.4.2",
+		"eslint": "^9.33.0",
 		"eslint-plugin-solid": "^0.14.5"
-	},
-	"overrides": {
-		"vite": "5.4.10"
 	}
 }
