@@ -15,7 +15,7 @@ export function DiffScoreCard(p: { chart?: DiffData; diff: Diff; score?: Omit<Sc
 		const score = p.score.dxs;
 		const dxAcc100 = score * 100 / dxsMax;
 		const dxStar = toDXStar(dxAcc100) + 1;
-		const d = score - Math.ceil((dxs[dxStar - 1] ?? 1) * dxsMax / 100);
+		const d = score - Math.ceil((dxs[dxStar - 1] ?? 100) * dxsMax / 100);
 		const dxsBorder = d > 0 ? 'WTF' : d === 0 ? 'MAX' : `${dxStar === 6 ? 'MAX' : `⭐${dxStar}`} ${d}`;
 		return { dxsMax, dxAcc100, dxStar, dxsBorder };
 	};
