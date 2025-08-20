@@ -21,7 +21,7 @@ export function PlayCard(p: { score: Score }) {
 	const style = () => diffData[p.score.diff];
 
 	return (
-		<div class={clsx('flex overflow-hidden rounded-md p-1 relative font-semibold', style().fg, style().bg)}>
+		<div class={clsx('relative flex overflow-hidden rounded-md p-1 font-semibold', style().fg, style().bg)}>
 			<div class='relative h-26 w-26'>
 				<img src={music().jacketImg} class='rounded-md' />
 				<Badge.SongType class='absolute right-0 top-0 h-4' type={music().type} />
@@ -37,7 +37,7 @@ export function PlayCard(p: { score: Score }) {
 				</div>
 
 				<div class='lh-[0.75rem] font-digit'>
-					<span class='text-xs lh-[0.75rem]'>{`${(dxAccFloat() / 100).toFixed(2)}%`}</span>
+					<span class='text-xs lh-[0.75rem]'>{`${(dxAccFloat() * 100).toFixed(2)}%`}</span>
 					<span class='text-xs lh-[0.75rem]'>{` - ${p.score.dxs} / ${dxsMax()} `}</span>
 					<span class='text-xs lh-[0.75rem]'>{`(${d()})`}</span>
 				</div>
